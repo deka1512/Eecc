@@ -1,0 +1,1 @@
+<template><UContainer class="py-12"><h1 class="text-3xl font-semibold">L'église</h1><p class="mt-4 text-muted">Présentation institutionnelle à compléter avec les informations officielles.</p></UContainer></template>
