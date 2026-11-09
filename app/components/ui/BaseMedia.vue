@@ -7,13 +7,15 @@ withDefaults(defineProps<{
   position?: string
   decorative?: boolean
   loading?: 'lazy' | 'eager'
+  fallbackLabel?: string
 }>(), {
   alt: '',
   ratio: '16 / 9',
   fit: 'cover',
   position: 'center',
   decorative: false,
-  loading: 'lazy'
+  loading: 'lazy',
+  fallbackLabel: 'Visuel à venir'
 })
 </script>
 
@@ -27,8 +29,8 @@ withDefaults(defineProps<{
       :loading="loading"
       :style="{ objectFit: fit, objectPosition: position }"
     >
-    <div v-else class="flex h-full min-h-32 items-center justify-center text-sm text-[var(--eecc-color-muted)]">
-      Image à ajouter
+    <div v-else class="flex h-full min-h-32 items-center justify-center bg-gradient-to-br from-[var(--eecc-color-surface-muted)] to-[var(--eecc-color-brand-soft)] px-6 text-center text-xs font-semibold uppercase tracking-[.14em] text-[var(--eecc-color-muted)]">
+      {{ fallbackLabel }}
     </div>
     <slot />
   </div>

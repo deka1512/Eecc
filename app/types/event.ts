@@ -1,10 +1,7 @@
-export interface ChurchEvent {
-  id: number
-  date: string
-  slug: string
-  link: string
-  title: { rendered: string }
-  excerpt: { rendered: string }
+import type { Publication } from '~/types/publication'
+
+/** Les événements sont des articles WordPress enrichis par le plugin eecc-core. */
+export interface ChurchEvent extends Publication {
   event_start?: string
   event_end?: string
   event_venue?: string

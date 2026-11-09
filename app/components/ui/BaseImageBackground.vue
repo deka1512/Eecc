@@ -5,23 +5,25 @@ withDefaults(defineProps<{
   tone?: 'dark' | 'light'
   position?: string
   minHeight?: string
+  loading?: 'lazy' | 'eager'
 }>(), {
   alt: '',
   tone: 'dark',
   position: 'center',
-  minHeight: '28rem'
+  minHeight: '28rem',
+  loading: 'lazy'
 })
 </script>
 
 <template>
-  <section class="relative isolate flex items-center overflow-hidden bg-neutral-900 text-white" :style="{ minHeight }">
+  <section class="relative isolate flex items-center overflow-hidden bg-[var(--eecc-color-ink)] text-white" :style="{ minHeight }">
     <img
       v-if="src"
       :src="src"
       :alt="alt"
-      class="absolute inset-0 -z-20 h-full w-full object-cover"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
       :style="{ objectPosition: position }"
-      loading="lazy"
+      :loading="loading"
     >
     <div
       class="absolute inset-0 -z-10"

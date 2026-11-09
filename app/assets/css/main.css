@@ -1,32 +1,24 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-/*
- * EECC Centrale — fondations visuelles.
- * Les rôles sémantiques sont centralisés ici pour pouvoir brancher précisément
- * la palette 03 et le set typographique 04 sans modifier les composants.
- * Les valeurs de marque restent volontairement neutres tant que les références
- * exactes (hex et noms de polices) ne sont pas présentes dans le dépôt.
- */
+/* Tokens sémantiques : les valeurs de marque exactes de la palette 03 et du set 04
+   seront injectées ici dès que leurs références précises seront disponibles. */
 :root {
   color-scheme: light;
-
   --eecc-color-canvas: #f7f7f4;
   --eecc-color-surface: #ffffff;
-  --eecc-color-surface-muted: #f0f1ed;
+  --eecc-color-surface-muted: #eef0ec;
   --eecc-color-ink: #202722;
   --eecc-color-muted: #68716b;
-  --eecc-color-border: #e2e6e0;
+  --eecc-color-border: #e1e5df;
   --eecc-color-brand: var(--ui-color-primary-600, #59645d);
-  --eecc-color-brand-soft: var(--ui-color-primary-50, #f3f5f3);
-
+  --eecc-color-brand-soft: var(--ui-color-primary-50, #f1f4f1);
   --eecc-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --eecc-font-display: Georgia, "Times New Roman", serif;
-
-  --eecc-radius-card: 1.35rem;
+  --eecc-radius-card: 1.25rem;
   --eecc-radius-panel: 1.75rem;
-  --eecc-shadow-card: 0 18px 50px rgb(32 39 34 / 8%);
-  --eecc-shadow-floating: 0 24px 70px rgb(32 39 34 / 13%);
+  --eecc-shadow-card: 0 16px 44px rgb(32 39 34 / 7%);
+  --eecc-shadow-floating: 0 24px 70px rgb(32 39 34 / 12%);
 }
 
 @theme inline {
@@ -34,11 +26,7 @@
   --font-display: var(--eecc-font-display);
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--eecc-color-canvas);
-}
-
+html { scroll-behavior: smooth; background: var(--eecc-color-canvas); }
 body {
   min-width: 320px;
   background: var(--eecc-color-canvas);
@@ -48,82 +36,50 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-::selection {
-  background: var(--eecc-color-brand-soft);
-  color: var(--eecc-color-ink);
-}
-
-.eecc-display {
-  font-family: var(--eecc-font-display);
-  letter-spacing: -0.035em;
-}
-
-.eecc-section {
-  padding-block: clamp(3.5rem, 7vw, 6.5rem);
-}
-
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: var(--eecc-color-brand-soft); color: var(--eecc-color-ink); }
+:focus-visible { outline-color: var(--eecc-color-brand); }
+.eecc-display { font-family: var(--eecc-font-display); letter-spacing: -0.035em; }
+.eecc-section { padding-block: clamp(3.5rem, 7vw, 6.5rem); }
 .eecc-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  color: var(--eecc-color-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  line-height: 1.4;
-  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: .55rem;
+  color: var(--eecc-color-muted); font-size: .72rem; font-weight: 700;
+  letter-spacing: .16em; line-height: 1.4; text-transform: uppercase;
 }
-
-.eecc-eyebrow::before {
-  width: 1.5rem;
-  height: 1px;
-  background: currentColor;
-  content: "";
-}
-
+.eecc-eyebrow::before { width: 1.5rem; height: 1px; background: currentColor; content: ""; }
 .eecc-card {
-  overflow: hidden;
-  border: 1px solid var(--eecc-color-border);
-  border-radius: var(--eecc-radius-card);
-  background: var(--eecc-color-surface);
+  overflow: hidden; border: 1px solid var(--eecc-color-border);
+  border-radius: var(--eecc-radius-card); background: var(--eecc-color-surface);
   box-shadow: var(--eecc-shadow-card);
 }
-
-.eecc-muted {
-  color: var(--eecc-color-muted);
+.eecc-muted { color: var(--eecc-color-muted); }
+.eecc-media { position: relative; overflow: hidden; background: var(--eecc-color-surface-muted); }
+.eecc-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.eecc-prose { color: var(--eecc-color-ink); font-size: 1.0625rem; line-height: 1.9; overflow-wrap: anywhere; }
+.eecc-prose > * + * { margin-top: 1.25em; }
+.eecc-prose h2, .eecc-prose h3, .eecc-prose h4 {
+  margin-top: 2em; color: var(--eecc-color-ink); font-family: var(--eecc-font-display);
+  font-weight: 500; line-height: 1.2; letter-spacing: -.025em;
 }
-
-.eecc-media {
-  position: relative;
-  overflow: hidden;
-  background: var(--eecc-color-surface-muted);
+.eecc-prose h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
+.eecc-prose h3 { font-size: clamp(1.4rem, 2.5vw, 1.8rem); }
+.eecc-prose p, .eecc-prose li { color: var(--eecc-color-muted); }
+.eecc-prose a { color: var(--eecc-color-brand); text-decoration: underline; text-underline-offset: .2em; }
+.eecc-prose ul, .eecc-prose ol { padding-left: 1.5rem; }
+.eecc-prose ul { list-style: disc; }
+.eecc-prose ol { list-style: decimal; }
+.eecc-prose blockquote {
+  border-left: 3px solid var(--eecc-color-brand); padding: .5rem 0 .5rem 1.25rem;
+  color: var(--eecc-color-ink); font-family: var(--eecc-font-display); font-size: 1.35rem;
 }
-
-.eecc-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.eecc-focus-ring:focus-visible {
-  outline: 3px solid var(--eecc-color-brand);
-  outline-offset: 3px;
-}
-
+.eecc-prose img, .eecc-prose figure { max-width: 100%; height: auto; border-radius: 1rem; }
+.eecc-prose iframe { max-width: 100%; }
+.eecc-prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+.eecc-prose th, .eecc-prose td { border: 1px solid var(--eecc-color-border); padding: .65rem .8rem; }
+.eecc-prose th { background: var(--eecc-color-surface-muted); text-align: left; }
+.eecc-container { width: min(100% - 2.5rem, 80rem); margin-inline: auto; }
+@media (min-width: 640px) { .eecc-container { width: min(100% - 4rem, 80rem); } }
 @media (prefers-reduced-motion: no-preference) {
-  .eecc-media img {
-    transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  a:hover .eecc-media img,
-  button:hover .eecc-media img {
-    transform: scale(1.035);
-  }
+  .eecc-media img { transition: transform 700ms cubic-bezier(.2,.7,.2,1); }
+  a:hover .eecc-media img, button:hover .eecc-media img { transform: scale(1.035); }
 }

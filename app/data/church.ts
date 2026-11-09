@@ -5,5 +5,8 @@ export const church = {
   address: '',
   phone: '',
   email: '',
-  socialLinks: []
+  logo: '',
+  heroImage: '',
+  churchImage: '',
+  socialLinks: [] as { label: string; url: string }[]
 } as const

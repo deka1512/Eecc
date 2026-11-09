@@ -6,5 +6,5 @@ export interface WordPressCategory {
 
 export function getCategories() {
   const client = useWordPressClient()
-  return client<WordPressCategory[]>('/categories')
+  return client<WordPressCategory[]>('/categories', { query: { per_page: 100, hide_empty: false } })
 }
