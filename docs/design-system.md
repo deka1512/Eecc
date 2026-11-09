@@ -68,6 +68,7 @@ Les tokens sont centralisés dans `app/assets/css/main.css` :
 - Les informations institutionnelles proviennent de `app/data/church.ts`, `pastor.ts` et `departments.ts`.
 - Les publications et événements proviennent de WordPress via la couche de services.
 - Les événements restent des articles WordPress de la catégorie « Événements », enrichis par les champs du plugin `eecc-core`.
+- Les champs personnalisés des événements (`event_start`, `event_end`, `event_venue`, `event_address`, `registration_url`, `event_status`, `event_poster`) doivent être exposés dans la REST API.
 - Les composants consomment des données typées et n’appellent jamais directement l’API.
 
 ## Exemples

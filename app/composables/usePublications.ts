@@ -10,10 +10,13 @@ export function usePublications() {
     }
 
     try {
-      const [items, categories] = await Promise.all([
-        getPublications({ per_page: 60, orderby: 'date', order: 'desc' }),
-        getCategories()
-      ])
+      const items = await getPublications({ per_page: 60, orderby: 'date', order: 'desc' })
+      let categories: Awaited<ReturnType<typeof getCategories>> = []
+      try {
+        categories = await getCategories()
+      } catch {
+        // Les articles restent consultables même si la liste des catégories est indisponible.
+      }
       return { items, categories: categories.filter(category => category.slug !== 'uncategorized'), state: 'ready' as const }
     } catch {
       return { items: [], categories: [], state: 'error' as const }
