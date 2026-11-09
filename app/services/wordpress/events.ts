@@ -1,3 +1,4 @@
+import { useWordPressClient } from '~/services/wordpress/client'
 import type { ChurchEvent } from '~/types/event'
 
 /** Les événements sont des articles WordPress natifs enrichis par eecc-core. */
