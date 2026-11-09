@@ -97,8 +97,8 @@ Les médias sont associés aux pages, publications et événements. Il n'existe 
 
 Les champs institutionnels sont volontairement laissés vides tant que les informations officielles ne sont pas confirmées :
 
-- `app/data/church.ts) : description, adresse, téléphone, e-mail, logo et images.
-- `app/data/pastor.ts) : nom, biographie, portrait et message pastoral.
+- `app/data/church.ts` : description, adresse, téléphone, e-mail, logo et images.
+- `app/data/pastor.ts` : nom, biographie, portrait et message pastoral.
 - `app/data/departments.ts` : liste et présentation des départements.
 - `app/assets/css/main.css` : valeurs exactes de la palette 03 et polices du set typographique 04.
 
@@ -106,4 +106,4 @@ Ne pas publier le site avant d'avoir renseigné ces contenus, raccordé WordPres
 
 ## État de validation
 
-Une intégration continue GitHub Actions lance le contrôle TypeScript et le build sur la branche `initialisation). Les résultats de ces contrôles doivent être verts avant de considérer le front-end comme validé pour la mise en production.
+Une intégration continue GitHub Actions lance le contrôle TypeScript et le build sur la branche `initialisation`. Les résultats de ces contrôles doivent être verts avant de considérer le front-end comme validé pour la mise en production.
