@@ -1,3 +1,4 @@
+import { useWordPressClient } from '~/services/wordpress/client'
 import type { Publication } from '~/types/publication'
 
 export function getPublications(params: Record<string, string | number> = {}) {
