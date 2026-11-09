@@ -1,0 +1,1 @@
+<template><UContainer class="py-12"><h1 class="text-3xl font-semibold">Événements</h1><p class="mt-4 text-muted">Événements chargés depuis les articles WordPress de la catégorie dédiée.</p></UContainer></template>
