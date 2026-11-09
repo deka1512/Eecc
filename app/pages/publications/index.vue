@@ -1,0 +1,1 @@
+<template><UContainer class="py-12"><h1 class="text-3xl font-semibold">Publications</h1><p class="mt-4 text-muted">Actualités, annonces, enseignements et communiqués chargés depuis WordPress.</p></UContainer></template>
