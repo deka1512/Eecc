@@ -3,10 +3,10 @@ import { getCategories } from '~/services/wordpress/categories'
 import { getEventBySlug } from '~/services/wordpress/events'
 
 const route = useRoute()
-const slug = String(route.params.slug || '')
+const slug = computed(() => String(route.params.slug || ''))
 const config = useRuntimeConfig()
 
-const { data, pending } = await useAsyncData(`event-${slug}`, async () => {
+const { data, pending } = await useAsyncData(() => `event-${slug.value}`, async () => {
   if (!String(config.public.wordpressUrl || '').trim()) return { item: null, state: 'unconfigured' as const }
   try {
     const categories = await getCategories()
@@ -16,7 +16,7 @@ const { data, pending } = await useAsyncData(`event-${slug}`, async () => {
       category.name.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '') === 'evenements'
     )
     if (!eventCategory) return { item: null, state: 'category-missing' as const }
-    const items = await getEventBySlug(slug, eventCategory.id)
+    const items = await getEventBySlug(slug.value, eventCategory.id)
     return { item: items[0] ?? null, state: items.length ? 'ready' as const : 'not-found' as const }
   } catch {
     return { item: null, state: 'error' as const }

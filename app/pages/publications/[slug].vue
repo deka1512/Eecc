@@ -2,13 +2,13 @@
 import { getPublicationBySlug } from '~/services/wordpress/publications'
 
 const route = useRoute()
-const slug = String(route.params.slug || '')
+const slug = computed(() => String(route.params.slug || ''))
 const config = useRuntimeConfig()
 
-const { data, pending } = await useAsyncData(`publication-${slug}`, async () => {
+const { data, pending } = await useAsyncData(() => `publication-${slug.value}`, async () => {
   if (!String(config.public.wordpressUrl || '').trim()) return { item: null, state: 'unconfigured' as const }
   try {
-    const items = await getPublicationBySlug(slug)
+    const items = await getPublicationBySlug(slug.value)
     return { item: items[0] ?? null, state: items.length ? 'ready' as const : 'not-found' as const }
   } catch {
     return { item: null, state: 'error' as const }
