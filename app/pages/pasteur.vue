@@ -1,0 +1,1 @@
+<template><UContainer class="py-12"><h1 class="text-3xl font-semibold">Le pasteur</h1><p class="mt-4 text-muted">Profil et message pastoral à compléter avec les informations officielles.</p></UContainer></template>
