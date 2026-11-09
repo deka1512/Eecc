@@ -44,6 +44,8 @@ npm run typecheck
 npm run build
 ```
 
+Le contrôle automatique est aussi disponible dans GitHub : ouvrir l'onglet **Actions**, choisir **Frontend checks**, puis **Run workflow** pour le lancer manuellement.
+
 Pour générer une version statique :
 
 ```bash
