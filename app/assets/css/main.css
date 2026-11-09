@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Reporter ici les valeurs exactes de la palette 03 et du set typographique 04. */
+:root {
+  font-family: system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+html { scroll-behavior: smooth; }
+body { min-width: 320px; }
