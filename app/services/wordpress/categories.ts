@@ -1,3 +1,4 @@
+import { useWordPressClient } from '~/services/wordpress/client'
 export interface WordPressCategory {
   id: number
   name: string
