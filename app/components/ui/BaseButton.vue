@@ -14,7 +14,7 @@ withDefaults(defineProps<{
   leadingIcon?: string
   trailingIcon?: string
 }>(), {
-  color: 'neutral',
+  color: 'primary',
   variant: 'solid',
   size: 'md',
   block: false,
