@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     { path: '~/components', pathPrefix: false }
   ],
   css: ['~/assets/css/main.css'],
+  ui: {
+    colors: {
+      primary: 'green',
+      neutral: 'slate'
+    }
+  },
   runtimeConfig: {
     public: {
       wordpressUrl: ''
@@ -21,7 +27,7 @@ export default defineNuxtConfig({
           name: 'description',
           content: "Site officiel de l'Église Clinique Charismatique — EECC Centrale."
         },
-        { name: 'theme-color', content: '#f7f7f4' },
+        { name: 'theme-color', content: '#176B55' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
     }
