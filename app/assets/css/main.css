@@ -1,56 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-/* Tokens sémantiques : les valeurs de marque exactes de la palette 03 et du set 04
-   seront injectées ici dès que leurs références précises seront disponibles. */
+/* Identité EECC : base lumineuse, vert profond et accents solaires/corail. */
 :root {
   color-scheme: light;
-  --eecc-color-canvas: #f7f7f4;
-  --eecc-color-surface: #ffffff;
-  --eecc-color-surface-muted: #eef0ec;
-  --eecc-color-ink: #202722;
-  --eecc-color-muted: #68716b;
-  --eecc-color-border: #e1e5df;
-  --eecc-color-brand: var(--ui-color-primary-600, #59645d);
-  --eecc-color-brand-soft: var(--ui-color-primary-50, #f1f4f1);
-  --eecc-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --eecc-font-display: Georgia, "Times New Roman", serif;
+  --eecc-color-canvas: #FAF9F5;
+  --eecc-color-surface: #FFFFFF;
+  --eecc-color-surface-muted: #F0F4EF;
+  --eecc-color-ink: #172923;
+  --eecc-color-muted: #66756D;
+  --eecc-color-border: #E1E8E1;
+  --eecc-color-brand: #176B55;
+  --eecc-color-brand-soft: #E5F2EC;
+  --eecc-color-accent: #F4B544;
+  --eecc-color-accent-soft: #FFF3D9;
+  --eecc-color-accent-ink: #9B6410;
+  --eecc-color-highlight: #E66F58;
+  --eecc-color-highlight-soft: #FCEAE5;
+  --eecc-font-body: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --eecc-font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --eecc-radius-card: 1.25rem;
   --eecc-radius-panel: 1.75rem;
-  --eecc-shadow-card: 0 16px 44px rgb(32 39 34 / 7%);
-  --eecc-shadow-floating: 0 24px 70px rgb(32 39 34 / 12%);
+  --eecc-shadow-card: 0 16px 44px rgb(23 41 35 / 7%);
+  --eecc-shadow-floating: 0 24px 70px rgb(23 41 35 / 13%);
 }
-
 @theme inline {
   --font-sans: var(--eecc-font-body);
   --font-display: var(--eecc-font-display);
 }
-
 html { scroll-behavior: smooth; background: var(--eecc-color-canvas); }
 body {
-  min-width: 320px;
-  background: var(--eecc-color-canvas);
-  color: var(--eecc-color-ink);
-  font-family: var(--eecc-font-body);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  min-width: 320px; background: var(--eecc-color-canvas); color: var(--eecc-color-ink);
+  font-family: var(--eecc-font-body); font-synthesis: none; text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 button, a { -webkit-tap-highlight-color: transparent; }
-::selection { background: var(--eecc-color-brand-soft); color: var(--eecc-color-ink); }
-:focus-visible { outline-color: var(--eecc-color-brand); }
-.eecc-display { font-family: var(--eecc-font-display); letter-spacing: -0.035em; }
-.eecc-section { padding-block: clamp(3.5rem, 7vw, 6.5rem); }
+::selection { background: var(--eecc-color-accent); color: var(--eecc-color-ink); }
+:focus-visible { outline: 3px solid var(--eecc-color-highlight); outline-offset: 3px; }
+.eecc-display { font-family: var(--eecc-font-display); letter-spacing: -.035em; }
+.eecc-section { padding-block: clamp(4rem, 7vw, 7rem); }
 .eecc-eyebrow {
-  display: inline-flex; align-items: center; gap: .55rem;
-  color: var(--eecc-color-muted); font-size: .72rem; font-weight: 700;
-  letter-spacing: .16em; line-height: 1.4; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: .55rem; color: var(--eecc-color-muted);
+  font-size: .7rem; font-weight: 800; letter-spacing: .17em; line-height: 1.5; text-transform: uppercase;
 }
-.eecc-eyebrow::before { width: 1.5rem; height: 1px; background: currentColor; content: ""; }
+.eecc-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 99px; background: var(--eecc-color-accent); content: ""; }
 .eecc-card {
-  overflow: hidden; border: 1px solid var(--eecc-color-border);
-  border-radius: var(--eecc-radius-card); background: var(--eecc-color-surface);
-  box-shadow: var(--eecc-shadow-card);
+  overflow: hidden; border: 1px solid var(--eecc-color-border); border-radius: var(--eecc-radius-card);
+  background: var(--eecc-color-surface); box-shadow: var(--eecc-shadow-card);
 }
 .eecc-muted { color: var(--eecc-color-muted); }
 .eecc-media { position: relative; overflow: hidden; background: var(--eecc-color-surface-muted); }
@@ -59,17 +56,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eecc-prose > * + * { margin-top: 1.25em; }
 .eecc-prose h2, .eecc-prose h3, .eecc-prose h4 {
   margin-top: 2em; color: var(--eecc-color-ink); font-family: var(--eecc-font-display);
-  font-weight: 500; line-height: 1.2; letter-spacing: -.025em;
+  font-weight: 600; line-height: 1.2; letter-spacing: -.025em;
 }
 .eecc-prose h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
 .eecc-prose h3 { font-size: clamp(1.4rem, 2.5vw, 1.8rem); }
 .eecc-prose p, .eecc-prose li { color: var(--eecc-color-muted); }
 .eecc-prose a { color: var(--eecc-color-brand); text-decoration: underline; text-underline-offset: .2em; }
 .eecc-prose ul, .eecc-prose ol { padding-left: 1.5rem; }
-.eecc-prose ul { list-style: disc; }
-.eecc-prose ol { list-style: decimal; }
+.eecc-prose ul { list-style: disc; } .eecc-prose ol { list-style: decimal; }
 .eecc-prose blockquote {
-  border-left: 3px solid var(--eecc-color-brand); padding: .5rem 0 .5rem 1.25rem;
+  border-left: 3px solid var(--eecc-color-accent); padding: .5rem 0 .5rem 1.25rem;
   color: var(--eecc-color-ink); font-family: var(--eecc-font-display); font-size: 1.35rem;
 }
 .eecc-prose img, .eecc-prose figure { max-width: 100%; height: auto; border-radius: 1rem; }
@@ -78,6 +74,27 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eecc-prose th, .eecc-prose td { border: 1px solid var(--eecc-color-border); padding: .65rem .8rem; }
 .eecc-prose th { background: var(--eecc-color-surface-muted); text-align: left; }
 .eecc-container { width: min(100% - 2.5rem, 80rem); margin-inline: auto; }
+.eecc-feature-link {
+  display: flex; min-width: 0; align-items: center; gap: 1rem; border: 1px solid var(--eecc-color-border);
+  border-radius: 1.25rem; background: white; padding: 1.2rem; box-shadow: var(--eecc-shadow-card);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.eecc-feature-link:hover { transform: translateY(-4px); border-color: #B8D5C7; box-shadow: var(--eecc-shadow-floating); }
+.eecc-feature-icon { display: grid; width: 3.25rem; height: 3.25rem; flex: none; place-items: center; border-radius: 1rem; }
+.eecc-feature-link strong { display: block; font-size: .95rem; font-weight: 800; }
+.eecc-feature-link small { display: block; margin-top: .25rem; color: var(--eecc-color-muted); font-size: .75rem; }
+.eecc-ministry-card {
+  position: relative; overflow: hidden; min-height: 19rem; border: 1px solid var(--eecc-color-border);
+  border-radius: 1.5rem; background: white; padding: 2rem; box-shadow: var(--eecc-shadow-card);
+}
+.eecc-ministry-card::after {
+  position: absolute; right: -3.5rem; top: -3.5rem; width: 10rem; height: 10rem;
+  border-radius: 999px; background: var(--eecc-color-surface-muted); content: ""; opacity: .8;
+}
+.eecc-ministry-number { position: relative; z-index: 1; font-size: .75rem; font-weight: 800; letter-spacing: .15em; }
+.eecc-ministry-card > *:not(.eecc-ministry-number) { position: relative; z-index: 1; }
+.eecc-ministry-card h3 { margin-top: 1.25rem; font-size: 1.3rem; font-weight: 800; }
+.eecc-ministry-card p { margin-top: .65rem; max-width: 24rem; color: var(--eecc-color-muted); font-size: .9rem; line-height: 1.75; }
 @media (min-width: 640px) { .eecc-container { width: min(100% - 4rem, 80rem); } }
 @media (prefers-reduced-motion: no-preference) {
   .eecc-media img { transition: transform 700ms cubic-bezier(.2,.7,.2,1); }
