@@ -5,8 +5,8 @@ const contactInfo = ref({
   phone: church.phone || 'Numéro officiel à confirmer.',
   email: church.email || 'Adresse e-mail officielle à confirmer.'
 })
-const hasPhone = Boolean(church.phone)
-const hasEmail = Boolean(church.email)
+const hasPhone = ref(Boolean(church.phone))
+const hasEmail = ref(Boolean(church.email))
 const submitted = ref(false)
 const form = ref({ name: '', email: '', subject: 'Demande d’information', message: '' })
 const submitMessage = () => { submitted.value = true }
