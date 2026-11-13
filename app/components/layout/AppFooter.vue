@@ -53,7 +53,7 @@ const year = new Date().getFullYear()
       </div>
       <div class="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
         <p>© {{ year }} EECC Centrale. Tous droits réservés.</p>
-        <p>Made by Deka</p>
+        <p>Made by <a href="https://bydeka.net" target="_blank" rel="noopener noreferrer" class="font-semibold text-white/70 transition hover:text-white">Deka</a> : <a href="https://bydeka.net" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">bydeka.net</a></p>
       </div>
     </UContainer>
   </footer>
