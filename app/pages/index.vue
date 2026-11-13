@@ -101,7 +101,7 @@ useSeoMeta({
         <p class="max-w-xl text-base leading-8 text-white/75 lg:col-span-4 lg:col-start-9">Trois événements fictifs pour illustrer les temps forts et les rencontres de l’EECC Centrale.</p>
       </div>
       <div class="eecc-container relative mt-12 grid gap-5 md:grid-cols-12 md:grid-rows-2">
-        <NuxtLink v-for="item in featuredEvents" :key="item.slug" :to="'/evenements/' + item.slug" class="group relative min-h-[260px] overflow-hidden rounded-[1.5rem] md:min-h-[290px]" :class="featuredEvents.indexOf(item) === 0 ? 'md:col-span-7 md:row-span-2' : 'md:col-span-5'">
+        <NuxtLink v-for="(item, index) in featuredEvents" :key="item.slug" :to="'/evenements/' + item.slug" class="group relative min-h-[260px] overflow-hidden rounded-[1.5rem] md:min-h-[290px]" :class="index === 0 ? 'md:col-span-7 md:row-span-2' : 'md:col-span-5'">
           <img :src="item.image" :alt="item.alt" class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
           <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
           <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-white sm:p-8">
