@@ -21,7 +21,7 @@ const isActive = (to: string) => to === '/' ? route.path === '/' : route.path ==
           {{ item.label }}
         </NuxtLink>
       </nav>
-      <div class="hidden lg:block"><BaseButton to="/rendez-vous" size="sm" trailing-icon="i-lucide-arrow-up-right">Prendre rendez-vous</BaseButton></div>
+      <div class="hidden lg:block"><BaseButton to="/rendez-vous" size="md" trailing-icon="i-lucide-arrow-up-right">Prendre rendez-vous</BaseButton></div>
       <UButton class="lg:hidden" color="neutral" variant="ghost" :icon="menuOpen ? 'i-lucide-x' : 'i-lucide-menu'" :aria-label="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'" :aria-expanded="menuOpen" aria-controls="mobile-navigation" @click="menuOpen = !menuOpen" />
     </UContainer>
     <div v-if="menuOpen" id="mobile-navigation" class="border-t border-[var(--eecc-color-border)] bg-white px-5 py-4 lg:hidden">
