@@ -16,6 +16,15 @@ const year = new Date().getFullYear()
           <p class="mt-5 max-w-md text-sm leading-7 text-white/65">
             {{ church.description || 'Retrouvez les informations institutionnelles, les actualités, les enseignements et les rendez-vous de l’Église Clinique Charismatique.' }}
           </p>
+          <div class="mt-7">
+            <h2 class="text-xs font-bold uppercase tracking-[.16em] text-white/45">Réseaux sociaux</h2>
+            <div class="mt-3 flex items-center gap-3">
+              <a v-for="social in church.socialLinks" :key="social.label" :href="social.url" :aria-label="social.label" :title="social.label" target="_blank" rel="noopener noreferrer" class="flex size-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:border-white/50 hover:bg-white/20">
+                <UIcon :name="social.icon" class="size-4" />
+              </a>
+            </div>
+            <p class="mt-3 text-[10px] leading-5 text-white/45">Liens de démonstration à remplacer par les pages officielles.</p>
+          </div>
         </div>
         <div class="md:col-span-3 md:col-start-7">
           <h2 class="text-xs font-bold uppercase tracking-[.16em] text-white/45">Explorer</h2>
@@ -40,20 +49,11 @@ const year = new Date().getFullYear()
             </template>
           </div>
           <p v-if="church.contactsAreDemo" class="mt-4 text-[10px] leading-5 text-white/45">Coordonnées fictives de démonstration, à remplacer avant publication.</p>
-          <div class="mt-7">
-            <h3 class="text-xs font-bold uppercase tracking-[.16em] text-white/45">Réseaux sociaux</h3>
-            <div class="mt-3 flex items-center gap-3">
-              <a v-for="social in church.socialLinks" :key="social.label" :href="social.url" :aria-label="social.label" :title="social.label" target="_blank" rel="noopener noreferrer" class="flex size-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:border-white/50 hover:bg-white/20">
-                <UIcon :name="social.icon" class="size-4" />
-              </a>
-            </div>
-            <p class="mt-3 text-[10px] leading-5 text-white/45">Liens de démonstration à remplacer par les pages officielles.</p>
-          </div>
         </div>
       </div>
       <div class="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
         <p>© {{ year }} EECC Centrale. Tous droits réservés.</p>
-        <p>Église Clinique Charismatique</p>
+        <p>Made by Deka</p>
       </div>
     </UContainer>
   </footer>
