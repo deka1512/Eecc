@@ -13,6 +13,7 @@ export interface Publication {
   content: WordPressRenderedText
   featured_media?: number
   categories?: number[]
+  isDemo?: boolean
   _embedded?: {
     'wp:featuredmedia'?: WordPressMedia[]
     'wp:term'?: WordPressTerm[][]
