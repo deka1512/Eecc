@@ -1,13 +1,13 @@
 import { getCategories } from '~/services/wordpress/categories'
 import { getEvents } from '~/services/wordpress/events'
+import { demoEvents } from '~/data/demo-content'
 
 export function useEvents() {
   const config = useRuntimeConfig()
+  const demoResult = () => ({ items: demoEvents, state: 'demo' as const })
 
   return useAsyncData('wordpress-events', async () => {
-    if (!String(config.public.wordpressUrl || '').trim()) {
-      return { items: [], state: 'unconfigured' as const }
-    }
+    if (!String(config.public.wordpressUrl || '').trim()) return demoResult()
 
     try {
       const categories = await getCategories()
@@ -17,7 +17,7 @@ export function useEvents() {
         category.name.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '') === 'evenements'
       )
 
-      if (!eventCategory) return { items: [], state: 'category-missing' as const }
+      if (!eventCategory) return demoResult()
 
       const items = await getEvents({
         categories: eventCategory.id,
@@ -26,6 +26,8 @@ export function useEvents() {
         order: 'desc'
       })
 
+      if (!items.length) return demoResult()
+
       return {
         items: [...items].sort((a, b) =>
           new Date(a.event_start || a.date).getTime() - new Date(b.event_start || b.date).getTime()
@@ -33,7 +35,7 @@ export function useEvents() {
         state: 'ready' as const
       }
     } catch {
-      return { items: [], state: 'error' as const }
+      return demoResult()
     }
-  }, { default: () => ({ items: [], state: 'unconfigured' as const }) })
+  }, { default: demoResult })
 }

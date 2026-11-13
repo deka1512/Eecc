@@ -5,6 +5,7 @@ on:
     branches:
       - initialisation
       - main
+      - design/site-vitrine-premium
   pull_request:
     branches:
       - initialisation

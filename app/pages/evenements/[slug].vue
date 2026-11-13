@@ -1,28 +1,27 @@
 <script setup lang="ts">
+import { demoEvents } from '~/data/demo-content'
 import { getCategories } from '~/services/wordpress/categories'
 import { getEventBySlug } from '~/services/wordpress/events'
-
 const route = useRoute()
 const slug = computed(() => String(route.params.slug || ''))
 const config = useRuntimeConfig()
-
-const { data, pending } = await useAsyncData(() => `event-${slug.value}`, async () => {
-  if (!String(config.public.wordpressUrl || '').trim()) return { item: null, state: 'unconfigured' as const }
+const demoEvent = computed(() => demoEvents.find(item => item.slug === slug.value) ?? null)
+const { data, pending } = await useAsyncData(() => 'event-' + slug.value, async () => {
+  if (!String(config.public.wordpressUrl || '').trim()) return { item: demoEvent.value, state: demoEvent.value ? 'demo' as const : 'not-found' as const }
   try {
     const categories = await getCategories()
     const eventCategory = categories.find(category =>
-      category.slug === 'evenements' ||
-      category.slug === 'evenement' ||
+      category.slug === 'evenements' || category.slug === 'evenement' ||
       category.name.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '') === 'evenements'
     )
-    if (!eventCategory) return { item: null, state: 'category-missing' as const }
+    if (!eventCategory) return { item: demoEvent.value, state: demoEvent.value ? 'demo' as const : 'category-missing' as const }
     const items = await getEventBySlug(slug.value, eventCategory.id)
-    return { item: items[0] ?? null, state: items.length ? 'ready' as const : 'not-found' as const }
+    if (items.length) return { item: items[0], state: 'ready' as const }
+    return { item: demoEvent.value, state: demoEvent.value ? 'demo' as const : 'not-found' as const }
   } catch {
-    return { item: null, state: 'error' as const }
+    return { item: demoEvent.value, state: demoEvent.value ? 'demo' as const : 'error' as const }
   }
 })
-
 const event = computed(() => data.value?.item ?? null)
 const titleText = computed(() => event.value?.title.rendered.replace(/<[^>]*>/g, '') || 'Événement')
 const eventImage = computed(() => event.value?.event_poster || event.value?._embedded?.['wp:featuredmedia']?.[0]?.source_url)
@@ -31,9 +30,7 @@ const dateLabel = computed(() => {
   const value = event.value.event_start || event.value.date
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return ''
-  const options: Intl.DateTimeFormatOptions = event.value.event_start
-    ? { dateStyle: 'full', timeStyle: 'short' }
-    : { dateStyle: 'full' }
+  const options: Intl.DateTimeFormatOptions = event.value.event_start ? { dateStyle: 'full', timeStyle: 'short' } : { dateStyle: 'full' }
   return new Intl.DateTimeFormat('fr-FR', options).format(date)
 })
 const endDateLabel = computed(() => {
@@ -41,34 +38,29 @@ const endDateLabel = computed(() => {
   const date = new Date(event.value.event_end)
   return Number.isNaN(date.getTime()) ? '' : new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full', timeStyle: 'short' }).format(date)
 })
-
 useSeoMeta({
   title: () => titleText.value,
   description: () => event.value ? event.value.excerpt.rendered.replace(/<[^>]*>/g, '').slice(0, 160) : 'Événement de l’EECC Centrale.'
 })
 </script>
-
 <template>
   <div>
-    <template v-if="pending">
-      <div class="eecc-container py-20"><div class="h-10 max-w-2xl animate-pulse rounded bg-[var(--eecc-color-surface-muted)]" /><div class="mt-6 h-4 max-w-sm animate-pulse rounded bg-[var(--eecc-color-surface-muted)]" /></div>
-    </template>
+    <template v-if="pending"><div class="eecc-container py-20"><div class="h-10 max-w-2xl animate-pulse rounded bg-[var(--eecc-color-surface-muted)]" /><div class="mt-6 h-4 max-w-sm animate-pulse rounded bg-[var(--eecc-color-surface-muted)]" /></div></template>
     <template v-else-if="event">
       <article>
         <BasePageHero eyebrow="Événement EECC" :title="titleText" compact>
-          <BaseBadge :color="event.event_status === 'cancelled' ? 'error' : 'neutral'" variant="solid">
-            {{ event.event_status === 'cancelled' ? 'Événement annulé' : 'Événement programmé' }}
-          </BaseBadge>
+          <BaseBadge :color="event.isDemo ? 'warning' : event.event_status === 'cancelled' ? 'error' : 'neutral'">{{ event.isDemo ? 'Exemple fictif' : event.event_status === 'cancelled' ? 'Événement annulé' : 'Événement programmé' }}</BaseBadge>
         </BasePageHero>
         <UContainer class="py-10 sm:py-14">
+          <div v-if="data?.state === 'demo'" role="status" class="mb-8 rounded-2xl border border-amber-300 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-950">
+            <strong>Contenu fictif de démonstration :</strong> cet événement n’est pas une annonce officielle. Son lieu et son horaire sont à confirmer.
+          </div>
           <div class="grid gap-10 lg:grid-cols-12">
             <div class="lg:col-span-8">
               <BaseBreadcrumbs :items="[{ label: 'Événements', to: '/evenements' }, { label: titleText }]" />
-              <BaseMedia v-if="eventImage" :src="eventImage" :alt="`Visuel : ${titleText}`" ratio="16 / 9" class="mb-9 rounded-[var(--eecc-radius-panel)]" />
+              <BaseMedia v-if="eventImage" :src="eventImage" :alt="'Visuel : ' + titleText" ratio="16 / 9" class="mb-9 rounded-[var(--eecc-radius-panel)]" />
               <BaseContent :html="event.content.rendered" />
-              <div class="mt-12 border-t border-[var(--eecc-color-border)] pt-7">
-                <BaseButton to="/evenements" color="neutral" variant="outline" leading-icon="i-lucide-arrow-left">Retour à l’agenda</BaseButton>
-              </div>
+              <div class="mt-12 border-t border-[var(--eecc-color-border)] pt-7"><BaseButton to="/evenements" color="neutral" variant="outline" leading-icon="i-lucide-arrow-left">Retour à l’agenda</BaseButton></div>
             </div>
             <aside class="h-fit rounded-[var(--eecc-radius-panel)] border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)] sm:p-8 lg:col-span-4">
               <p class="eecc-eyebrow mb-5">Informations pratiques</p>
@@ -91,13 +83,7 @@ useSeoMeta({
       </article>
     </template>
     <section v-else class="eecc-container py-20">
-      <BaseEmptyState
-        :title="data?.state === 'unconfigured' ? 'Agenda en préparation' : data?.state === 'category-missing' ? 'Catégorie des événements introuvable' : data?.state === 'not-found' ? 'Événement introuvable' : 'Événement indisponible'"
-        :description="data?.state === 'unconfigured' ? 'La connexion WordPress sera activée lors de la configuration du site.' : data?.state === 'category-missing' ? 'Vérifiez la catégorie « Événements » dans WordPress.' : data?.state === 'not-found' ? 'Cet événement n’existe pas ou n’est plus disponible.' : 'Impossible de charger cet événement pour le moment.'"
-        icon="i-lucide-calendar-days"
-        action-label="Retour à l’agenda"
-        action-to="/evenements"
-      />
+      <BaseEmptyState :title="data?.state === 'category-missing' ? 'Catégorie des événements introuvable' : data?.state === 'not-found' ? 'Événement introuvable' : 'Événement indisponible'" :description="data?.state === 'category-missing' ? 'Vérifiez la catégorie « Événements » dans WordPress.' : data?.state === 'not-found' ? 'Cet événement n’existe pas ou n’est plus disponible.' : 'Impossible de charger cet événement pour le moment.'" icon="i-lucide-calendar-days" action-label="Retour à l’agenda" action-to="/evenements" />
     </section>
   </div>
 </template>
