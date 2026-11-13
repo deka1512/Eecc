@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { church } from '~/data/church'
 import { pastor } from '~/data/pastor'
+import { demoEvents } from '~/data/demo-content'
 const { data: publicationData } = await usePublications()
 const { data: eventData } = await useEvents()
 const latestPublications = computed(() => publicationData.value?.items.slice(0, 3) ?? [])
@@ -8,11 +9,16 @@ const nextEvent = computed(() => {
   const now = Date.now()
   return eventData.value?.items.find(event => event.event_status !== 'cancelled' && new Date(event.event_start || event.date).getTime() >= now)
 })
-const communityImages = [
-  { src: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=85', alt: 'Des personnes réunies dans un moment de partage', label: 'La communion', class: 'md:col-span-7 md:row-span-2' },
-  { src: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=900&q=85', alt: 'Une assemblée réunie dans un lieu de culte', label: 'La célébration', class: 'md:col-span-5' },
-  { src: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=900&q=85', alt: 'Un groupe de personnes échangeant ensemble', label: 'La fraternité', class: 'md:col-span-5' }
-]
+const featuredEvents = demoEvents.slice(0, 3).map(event => {
+  const eventDate = new Date(event.event_start || event.date)
+  return {
+    slug: event.slug,
+    title: event.title.rendered.replace(/<[^>]*>/g, ''),
+    date: new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' }).format(eventDate),
+    image: event.event_poster || event._embedded?.['wp:featuredmedia']?.[0]?.source_url || 'https://www.karenfamilychapel.org/assets/hero-jEk7uFqm.jpg',
+    alt: event._embedded?.['wp:featuredmedia']?.[0]?.alt_text || 'Communauté africaine réunie'
+  }
+})
 useSeoMeta({
   title: 'Accueil',
   description: 'Bienvenue à l’Église Clinique Charismatique — EECC Centrale. Découvrez notre communauté, nos actualités et nos rendez-vous.'
@@ -58,8 +64,8 @@ useSeoMeta({
       <div class="eecc-container grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
         <div class="relative lg:col-span-6">
           <div class="absolute -left-8 -top-8 size-36 rounded-full bg-[var(--eecc-color-accent-soft)] blur-2xl" />
-          <img :src="church.churchImage" alt="Des membres d’une communauté réunis dans un moment de partage" class="relative z-10 aspect-[5/4] w-full rounded-[2rem] object-cover shadow-[var(--eecc-shadow-floating)]" loading="lazy">
-          <div class="absolute -bottom-7 -right-4 z-20 max-w-[220px] rounded-2xl bg-[var(--eecc-color-brand)] p-5 text-white shadow-xl sm:-right-8"><UIcon name="i-lucide-sparkles" class="size-6 text-[var(--eecc-color-accent)]" /><p class="mt-2 text-sm font-semibold leading-6">Grandir dans la foi, ensemble et chaque jour.</p></div>
+          <img src="https://images.pexels.com/photos/6276712/pexels-photo-6276712.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Portrait d’illustration d’un pasteur noir africain" class="relative z-10 aspect-[5/4] w-full rounded-[2rem] object-cover object-center shadow-[var(--eecc-shadow-floating)]" loading="lazy">
+          <div class="absolute -bottom-7 -right-4 z-20 max-w-[220px] rounded-2xl bg-[var(--eecc-color-brand)] p-5 text-white shadow-xl sm:-right-8"><UIcon name="i-lucide-sparkles" class="size-6 text-[var(--eecc-color-accent)]" /><p class="mt-2 text-sm font-semibold leading-6">Pasteur Isidore NSUMBU</p><p class="mt-1 text-[10px] leading-4 text-white/70">Portrait d’illustration</p></div>
         </div>
         <div class="lg:col-span-5 lg:col-start-8">
           <p class="eecc-eyebrow">Bienvenue chez nous</p>
@@ -74,7 +80,7 @@ useSeoMeta({
     <section id="ministere-pastoral" class="eecc-section scroll-mt-24 bg-white">
       <div class="eecc-container grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
         <div class="relative lg:col-span-5">
-          <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1400&q=85" alt="Bible ouverte dans une lumière douce, visuel illustratif du ministère pastoral" class="aspect-[4/5] w-full rounded-[1.75rem] object-cover shadow-[var(--eecc-shadow-floating)]" loading="lazy">
+          <img src="https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62" alt="Choristes africaines réunies dans un lieu de culte" class="aspect-[4/5] w-full rounded-[1.75rem] object-cover shadow-[var(--eecc-shadow-floating)]" loading="lazy">
           <span class="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-[var(--eecc-color-muted)]">Visuel d’illustration</span>
         </div>
         <div class="lg:col-span-6 lg:col-start-7">
@@ -91,14 +97,17 @@ useSeoMeta({
     <section class="relative overflow-hidden bg-[var(--eecc-color-brand)] py-20 text-white sm:py-28">
       <div class="absolute -right-24 -top-32 size-[28rem] rounded-full border-[70px] border-white/5" />
       <div class="eecc-container relative grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-7"><p class="eecc-eyebrow text-white/65">Notre cœur de communauté</p><h2 class="eecc-display mt-5 text-4xl leading-tight sm:text-5xl lg:text-6xl">Une communauté qui célèbre, partage et sert.</h2></div>
-        <p class="max-w-xl text-base leading-8 text-white/75 lg:col-span-4 lg:col-start-9">La vie de l’église se construit dans les rencontres, les temps de célébration, l’écoute et l’engagement de chacun.</p>
+        <div class="lg:col-span-7"><p class="eecc-eyebrow text-white/65">À l’agenda</p><h2 class="eecc-display mt-5 text-4xl leading-tight sm:text-5xl lg:text-6xl">Les événements de la communauté.</h2></div>
+        <p class="max-w-xl text-base leading-8 text-white/75 lg:col-span-4 lg:col-start-9">Trois événements fictifs pour illustrer les temps forts et les rencontres de l’EECC Centrale.</p>
       </div>
       <div class="eecc-container relative mt-12 grid gap-5 md:grid-cols-12 md:grid-rows-2">
-        <NuxtLink v-for="item in communityImages" :key="item.label" to="/eglise" class="group relative min-h-[260px] overflow-hidden rounded-[1.5rem] md:min-h-[290px]" :class="item.class">
-          <img :src="item.src" :alt="item.alt" class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+        <NuxtLink v-for="item in featuredEvents" :key="item.slug" :to="'/evenements/' + item.slug" class="group relative min-h-[260px] overflow-hidden rounded-[1.5rem] md:min-h-[290px]" :class="featuredEvents.indexOf(item) === 0 ? 'md:col-span-7 md:row-span-2' : 'md:col-span-5'">
+          <img :src="item.image" :alt="item.alt" class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
           <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-          <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 text-white sm:p-8"><span class="eecc-display text-2xl sm:text-3xl">{{ item.label }}</span><span class="flex size-10 items-center justify-center rounded-full border border-white/50 bg-white/10 backdrop-blur"><UIcon name="i-lucide-arrow-up-right" /></span></div>
+          <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-white sm:p-8">
+            <span class="min-w-0"><span class="mb-2 block text-[10px] font-bold uppercase tracking-[.16em] text-white/75">{{ item.date }} · Exemple fictif</span><span class="eecc-display block text-2xl sm:text-3xl">{{ item.title }}</span></span>
+            <span class="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/50 bg-white/10 backdrop-blur"><UIcon name="i-lucide-arrow-up-right" /></span>
+          </div>
         </NuxtLink>
       </div>
     </section>
@@ -121,7 +130,7 @@ useSeoMeta({
     <PublicationGridSection v-if="latestPublications.length" :publications="latestPublications" eyebrow="Actualités et enseignements" title="Les dernières nouvelles de la communauté" description="Retrouvez les annonces, les temps forts et les ressources partagées par l’EECC Centrale." link-to="/publications" />
 
     <section class="relative isolate overflow-hidden py-24 sm:py-32">
-      <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=85" alt="" class="absolute inset-0 -z-20 size-full object-cover" loading="lazy"><div class="absolute inset-0 -z-10 bg-[#102D27]/85" />
+      <img src="https://www.karenfamilychapel.org/assets/hero-jEk7uFqm.jpg" alt="Assemblée africaine réunie pour un temps de louange" class="absolute inset-0 -z-20 size-full object-cover" loading="lazy"><div class="absolute inset-0 -z-10 bg-[#102D27]/85" />
       <div class="eecc-container relative text-center text-white"><p class="eecc-eyebrow justify-center text-white/65">Un premier pas</p><h2 class="eecc-display mx-auto mt-5 max-w-4xl text-4xl leading-tight sm:text-5xl lg:text-6xl">Nous serions heureux de vous accueillir.</h2><p class="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/75">Que vous découvriez l’église ou que vous souhaitiez renouer avec la communauté, prenez le temps de parcourir nos informations et nos prochains rendez-vous.</p>
         <div class="mt-9 flex flex-wrap justify-center gap-3"><BaseButton to="/rendez-vous" size="lg">Prendre rendez-vous</BaseButton><BaseButton to="/contact" size="lg" color="neutral" variant="outline" class="border-white/40 text-white hover:bg-white/10">Nous contacter</BaseButton></div>
       </div>

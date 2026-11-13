@@ -10,10 +10,10 @@ const dateOffset = (days: number, hour = 10) => {
 }
 
 const media = {
-  prayer: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1400&q=85',
-  bible: 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1400&q=85',
-  community: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=85',
-  gathering: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85'
+  prayer: 'https://images.pexels.com/photos/7533316/pexels-photo-7533316.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  bible: 'https://images.pexels.com/photos/6276712/pexels-photo-6276712.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  community: 'https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62',
+  gathering: 'https://vinepulse.com/wp-content/uploads/2023/08/367414568_692526529581710_6058880740802032878_n.jpeg'
 }
 
 export const demoPublicationCategories: WordPressCategory[] = [
@@ -29,7 +29,7 @@ export const demoPublications: Publication[] = [
     excerpt: { rendered: 'Un texte de démonstration pour illustrer les enseignements et les ressources qui pourront être partagés sur le site.' },
     content: { rendered: '<p>Ce contenu est un exemple fictif destiné à présenter la mise en page des publications de l’EECC Centrale.</p><h2>Prendre un temps de recul</h2><p>La prière peut être vécue comme un temps de silence, de confiance et d’écoute. Elle invite chacun à déposer ses préoccupations et à avancer avec espérance.</p><blockquote>Un temps de prière peut ouvrir un espace de paix et de discernement.</blockquote><p>Ce texte sera remplacé par un enseignement validé par l’équipe éditoriale de l’église.</p>' },
     categories: [9101], isDemo: true,
-    _embedded: { 'wp:featuredmedia': [{ source_url: media.prayer, alt_text: 'Lumière douce dans un lieu de prière' }] }
+    _embedded: { 'wp:featuredmedia': [{ source_url: media.prayer, alt_text: 'Portrait d’illustration d’un homme noir africain en prière' }] }
   },
   {
     id: 91002, date: dateOffset(-5, 9), slug: 'grandir-ensemble-dans-la-foi', link: '', status: 'publish',
@@ -37,7 +37,7 @@ export const demoPublications: Publication[] = [
     excerpt: { rendered: 'Une publication fictive qui présente l’esprit de communion, d’accueil et de croissance au cœur de la vie communautaire.' },
     content: { rendered: '<p>Cette publication est un exemple fictif pour la maquette du site.</p><h2>Une foi qui se partage</h2><p>La vie communautaire se construit dans les rencontres, l’attention portée aux autres et la possibilité de cheminer ensemble. Chacun peut apporter son expérience, ses questions et ses talents.</p><p>Les textes définitifs seront rédigés et approuvés par l’EECC Centrale avant la mise en ligne officielle.</p>' },
     categories: [9102], isDemo: true,
-    _embedded: { 'wp:featuredmedia': [{ source_url: media.community, alt_text: 'Personnes réunies dans un moment de partage' }] }
+    _embedded: { 'wp:featuredmedia': [{ source_url: media.community, alt_text: 'Chorale africaine réunie dans un moment de louange' }] }
   },
   {
     id: 91003, date: dateOffset(-8, 11), slug: 'servir-avec-ses-talents', link: '', status: 'publish',
@@ -45,7 +45,7 @@ export const demoPublications: Publication[] = [
     excerpt: { rendered: 'Un exemple de contenu pour présenter les engagements, les équipes et les différentes formes de participation.' },
     content: { rendered: '<p>Contenu fictif de démonstration.</p><h2>Une place pour chacun</h2><p>Les talents, les compétences et la disponibilité de chacun peuvent contribuer à une communauté attentive et vivante. Les équipes et leurs missions seront présentées ici après validation des informations officielles.</p>' },
     categories: [9103], isDemo: true,
-    _embedded: { 'wp:featuredmedia': [{ source_url: media.gathering, alt_text: 'Un groupe réuni dans un esprit de fraternité' }] }
+    _embedded: { 'wp:featuredmedia': [{ source_url: media.gathering, alt_text: 'Équipe africaine de bénévoles réunie pour servir' }] }
   },
   {
     id: 91004, date: dateOffset(-12, 10), slug: 'accueillir-et-ecouter', link: '', status: 'publish',
@@ -53,7 +53,7 @@ export const demoPublications: Publication[] = [
     excerpt: { rendered: 'Un exemple éditorial fictif pour illustrer les annonces et les informations destinées aux visiteurs.' },
     content: { rendered: '<p>Cette page est un exemple fictif. Elle montre comment les informations pratiques et les nouvelles de la communauté pourront être présentées.</p><p>Les annonces officielles seront publiées après confirmation de leur contenu et de leurs dates.</p>' },
     categories: [9102], isDemo: true,
-    _embedded: { 'wp:featuredmedia': [{ source_url: media.bible, alt_text: 'Bible ouverte dans une lumière douce' }] }
+    _embedded: { 'wp:featuredmedia': [{ source_url: media.bible, alt_text: 'Portrait d’illustration d’un pasteur noir africain' }] }
   }
 ]
 

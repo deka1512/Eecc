@@ -5,8 +5,8 @@ const contactInfo = ref({
   phone: church.phone || 'Numéro officiel à confirmer.',
   email: church.email || 'Adresse e-mail officielle à confirmer.'
 })
-const hasPhone = ref(Boolean(church.phone))
-const hasEmail = ref(Boolean(church.email))
+const hasPhone = ref(!church.contactsAreDemo && Boolean(church.phone))
+const hasEmail = ref(!church.contactsAreDemo && Boolean(church.email))
 const submitted = ref(false)
 const form = ref({ name: '', email: '', subject: 'Demande d’information', message: '' })
 const submitMessage = () => { submitted.value = true }
@@ -17,10 +17,10 @@ useSeoMeta({
 </script>
 <template>
   <div>
-    <BasePageHero eyebrow="Restons en contact" title="Nous sommes heureux de vous lire." description="Une question, une demande d’information ou l’envie de découvrir l’EECC Centrale ? Retrouvez ici les moyens de contact." image="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=2000&q=85" image-alt="Personnes réunies dans un moment de partage" compact />
+    <BasePageHero eyebrow="Restons en contact" title="Nous sommes heureux de vous lire." description="Une question, une demande d’information ou l’envie de découvrir l’EECC Centrale ? Retrouvez ici les moyens de contact." image="https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62" image-alt="Chorale africaine réunie dans un temps de louange" compact />
     <section class="eecc-section">
       <div class="eecc-container">
-        <div class="mb-12 max-w-3xl"><p class="eecc-eyebrow">Coordonnées</p><h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Les informations pratiques de l’église.</h2><p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Les coordonnées officielles seront affichées dès leur validation. Les champs encore inconnus ne sont pas remplacés par des informations inventées.</p></div>
+        <div class="mb-12 max-w-3xl"><p class="eecc-eyebrow">Coordonnées</p><h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Les informations pratiques de l’église.</h2><p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Les coordonnées ci-dessous sont fictives et servent uniquement à la maquette. Elles seront remplacées par les informations officielles avant publication.</p></div>
         <div class="grid gap-5 md:grid-cols-3">
           <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]"><UIcon name="i-lucide-map-pin" class="size-6" /></span><h3 class="mt-5 font-bold">Adresse</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ contactInfo.address }}</p></article>
           <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-accent-soft)] text-[var(--eecc-color-accent-ink)]"><UIcon name="i-lucide-phone" class="size-6" /></span><h3 class="mt-5 font-bold">Téléphone</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ contactInfo.phone }}</p><a v-if="hasPhone" :href="'tel:' + contactInfo.phone" class="mt-4 inline-flex text-sm font-bold text-[var(--eecc-color-brand)]">Appeler</a></article>

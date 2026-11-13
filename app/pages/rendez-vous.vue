@@ -18,7 +18,7 @@ useSeoMeta({
 </script>
 <template>
   <div>
-    <BasePageHero eyebrow="Écoute et accompagnement" title="Prenons le temps de nous rencontrer." description="Vous souhaitez échanger, demander un accompagnement pastoral ou obtenir des informations ? Présentez votre demande ici." image="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=2000&q=85" image-alt="Paysage paisible au lever du jour" compact />
+    <BasePageHero eyebrow="Écoute et accompagnement" title="Prenons le temps de nous rencontrer." description="Vous souhaitez échanger, demander un accompagnement pastoral ou obtenir des informations ? Présentez votre demande ici." image="https://vinepulse.com/wp-content/uploads/2023/08/367414568_692526529581710_6058880740802032878_n.jpeg" image-alt="Équipe africaine réunie dans un moment de service" compact />
     <section class="eecc-section">
       <div class="eecc-container grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div class="lg:col-span-5">

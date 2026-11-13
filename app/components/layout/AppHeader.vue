@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mainNavigation } from '~/data/navigation'
+const headerNavigation = mainNavigation.filter(item => item.to !== '/rendez-vous')
 const route = useRoute()
 const menuOpen = ref(false)
 watch(() => route.fullPath, () => { menuOpen.value = false })
@@ -16,7 +17,7 @@ const isActive = (to: string) => to === '/' ? route.path === '/' : route.path ==
         </span>
       </NuxtLink>
       <nav aria-label="Navigation principale" class="hidden items-center gap-1 lg:flex">
-        <NuxtLink v-for="item in mainNavigation" :key="item.to" :to="item.to" :aria-current="isActive(item.to) ? 'page' : undefined" class="rounded-full px-3 py-2 text-sm font-semibold transition-colors hover:bg-[var(--eecc-color-surface-muted)] hover:text-[var(--eecc-color-ink)]" :class="isActive(item.to) ? 'bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]' : 'text-[var(--eecc-color-muted)]'">
+        <NuxtLink v-for="item in headerNavigation" :key="item.to" :to="item.to" :aria-current="isActive(item.to) ? 'page' : undefined" class="rounded-full px-3 py-2 text-sm font-semibold transition-colors hover:bg-[var(--eecc-color-surface-muted)] hover:text-[var(--eecc-color-ink)]" :class="isActive(item.to) ? 'bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]' : 'text-[var(--eecc-color-muted)]'">
           {{ item.label }}
         </NuxtLink>
       </nav>
@@ -25,7 +26,7 @@ const isActive = (to: string) => to === '/' ? route.path === '/' : route.path ==
     </UContainer>
     <div v-if="menuOpen" id="mobile-navigation" class="border-t border-[var(--eecc-color-border)] bg-white px-5 py-4 lg:hidden">
       <nav aria-label="Navigation mobile" class="mx-auto flex max-w-7xl flex-col gap-1">
-        <NuxtLink v-for="item in mainNavigation" :key="item.to" :to="item.to" :aria-current="isActive(item.to) ? 'page' : undefined" class="rounded-xl px-4 py-3 text-sm font-semibold" :class="isActive(item.to) ? 'bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]' : 'text-[var(--eecc-color-muted)]'">
+        <NuxtLink v-for="item in headerNavigation" :key="item.to" :to="item.to" :aria-current="isActive(item.to) ? 'page' : undefined" class="rounded-xl px-4 py-3 text-sm font-semibold" :class="isActive(item.to) ? 'bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]' : 'text-[var(--eecc-color-muted)]'">
           {{ item.label }}
         </NuxtLink>
         <BaseButton to="/rendez-vous" block class="mt-2">Prendre rendez-vous</BaseButton>
