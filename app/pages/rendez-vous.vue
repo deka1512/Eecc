@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const today = new Date().toISOString().slice(0, 10)
 const submitted = ref(false)
-const form = reactive({
+const form = ref({
   name: '',
   email: '',
   phone: '',
@@ -22,8 +22,7 @@ useSeoMeta({
     <section class="eecc-section">
       <div class="eecc-container grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div class="lg:col-span-5">
-          <p class="eecc-eyebrow">Comment ça fonctionne</p>
-          <h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Un espace pour être écouté.</h2>
+          <p class="eecc-eyebrow">Comment ça fonctionne</p><h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Un espace pour être écouté.</h2>
           <p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Cette page présente le parcours de demande de rendez-vous. Le formulaire est actuellement une maquette : il sera connecté à un service de réception lorsque les coordonnées et le système de traitement auront été définis.</p>
           <div class="mt-9 space-y-6">
             <div class="flex gap-4"><span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]"><UIcon name="i-lucide-message-circle" class="size-5" /></span><div><h3 class="font-bold">Présentez votre demande</h3><p class="mt-1 text-sm leading-6 text-[var(--eecc-color-muted)]">Indiquez le motif et le moyen de vous recontacter.</p></div></div>

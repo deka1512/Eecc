@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { church } from '~/data/church'
+const contactInfo = ref({
+  address: church.address || 'Adresse officielle à confirmer.',
+  phone: church.phone || 'Numéro officiel à confirmer.',
+  email: church.email || 'Adresse e-mail officielle à confirmer.'
+})
+const hasPhone = Boolean(church.phone)
+const hasEmail = Boolean(church.email)
 const submitted = ref(false)
-const form = reactive({ name: '', email: '', subject: 'Demande d’information', message: '' })
+const form = ref({ name: '', email: '', subject: 'Demande d’information', message: '' })
 const submitMessage = () => { submitted.value = true }
 useSeoMeta({
   title: 'Contact',
@@ -15,9 +22,9 @@ useSeoMeta({
       <div class="eecc-container">
         <div class="mb-12 max-w-3xl"><p class="eecc-eyebrow">Coordonnées</p><h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Les informations pratiques de l’église.</h2><p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Les coordonnées officielles seront affichées dès leur validation. Les champs encore inconnus ne sont pas remplacés par des informations inventées.</p></div>
         <div class="grid gap-5 md:grid-cols-3">
-          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]"><UIcon name="i-lucide-map-pin" class="size-6" /></span><h3 class="mt-5 font-bold">Adresse</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ church.address || 'Adresse officielle à confirmer.' }}</p></article>
-          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-accent-soft)] text-[var(--eecc-color-accent-ink)]"><UIcon name="i-lucide-phone" class="size-6" /></span><h3 class="mt-5 font-bold">Téléphone</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ church.phone || 'Numéro officiel à confirmer.' }}</p><a v-if="church.phone" :href="'tel:' + church.phone" class="mt-4 inline-flex text-sm font-bold text-[var(--eecc-color-brand)]">Appeler</a></article>
-          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-highlight-soft)] text-[var(--eecc-color-highlight)]"><UIcon name="i-lucide-mail" class="size-6" /></span><h3 class="mt-5 font-bold">E-mail</h3><p class="mt-2 break-all text-sm leading-6 text-[var(--eecc-color-muted)]">{{ church.email || 'Adresse e-mail officielle à confirmer.' }}</p><a v-if="church.email" :href="'mailto:' + church.email" class="mt-4 inline-flex text-sm font-bold text-[var(--eecc-color-brand)]">Écrire un e-mail</a></article>
+          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-brand-soft)] text-[var(--eecc-color-brand)]"><UIcon name="i-lucide-map-pin" class="size-6" /></span><h3 class="mt-5 font-bold">Adresse</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ contactInfo.address }}</p></article>
+          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-accent-soft)] text-[var(--eecc-color-accent-ink)]"><UIcon name="i-lucide-phone" class="size-6" /></span><h3 class="mt-5 font-bold">Téléphone</h3><p class="mt-2 text-sm leading-6 text-[var(--eecc-color-muted)]">{{ contactInfo.phone }}</p><a v-if="hasPhone" :href="'tel:' + contactInfo.phone" class="mt-4 inline-flex text-sm font-bold text-[var(--eecc-color-brand)]">Appeler</a></article>
+          <article class="rounded-2xl border border-[var(--eecc-color-border)] bg-white p-6 shadow-[var(--eecc-shadow-card)]"><span class="flex size-12 items-center justify-center rounded-xl bg-[var(--eecc-color-highlight-soft)] text-[var(--eecc-color-highlight)]"><UIcon name="i-lucide-mail" class="size-6" /></span><h3 class="mt-5 font-bold">E-mail</h3><p class="mt-2 break-all text-sm leading-6 text-[var(--eecc-color-muted)]">{{ contactInfo.email }}</p><a v-if="hasEmail" :href="'mailto:' + contactInfo.email" class="mt-4 inline-flex text-sm font-bold text-[var(--eecc-color-brand)]">Écrire un e-mail</a></article>
         </div>
         <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div class="lg:col-span-5"><p class="eecc-eyebrow">Écrire à l’église</p><h2 class="eecc-display mt-4 text-3xl leading-tight sm:text-4xl">Votre message compte.</h2><p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Vous pouvez préparer votre message dans ce formulaire de démonstration. Il ne sera pas transmis tant que le service de contact n’aura pas été connecté.</p><BaseButton to="/rendez-vous" variant="outline" trailing-icon="i-lucide-calendar-plus" class="mt-7">Demander un rendez-vous</BaseButton></div>
