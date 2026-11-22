@@ -12,7 +12,7 @@ const serviceAreas = [
 </script>
 <template>
   <div>
-    <BasePageHero eyebrow="Organisation et service" title="Les départements de l’église." description="Découvrez les équipes qui participent à la vie spirituelle, à l’accueil, à l’organisation et à la mission de l’EECC Centrale." image="https://vinepulse.com/wp-content/uploads/2023/08/367414568_692526529581710_6058880740802032878_n.jpeg" image-alt="Équipe africaine de bénévoles réunie devant son lieu de culte" compact />
+    <BasePageHero eyebrow="Organisation et service" title="Les départements de l’église." description="Découvrez les équipes qui participent à la vie spirituelle, à l’accueil, à l’organisation et à la mission de l’EECC Centrale." image="/departement.jpg" image-alt="Choristes lors d’un temps de louange" compact />
     <section class="eecc-section">
       <div class="eecc-container">
         <div class="mx-auto max-w-3xl text-center">

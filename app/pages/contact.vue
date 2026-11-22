@@ -17,7 +17,7 @@ useSeoMeta({
 </script>
 <template>
   <div>
-    <BasePageHero eyebrow="Restons en contact" title="Nous sommes heureux de vous lire." description="Une question, une demande d’information ou l’envie de découvrir l’EECC Centrale ? Retrouvez ici les moyens de contact." image="https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62" image-alt="Chorale africaine réunie dans un temps de louange" compact />
+    <BasePageHero eyebrow="Restons en contact" title="Nous sommes heureux de vous lire." description="Une question, une demande d’information ou l’envie de découvrir l’EECC Centrale ? Retrouvez ici les moyens de contact." image="/contact.jpg" image-alt="Pasteur pendant un temps de prédication" compact />
     <section class="eecc-section">
       <div class="eecc-container">
         <div class="mb-12 max-w-3xl"><p class="eecc-eyebrow">Coordonnées</p><h2 class="eecc-display mt-4 text-4xl leading-tight sm:text-5xl">Les informations pratiques de l’église.</h2><p class="mt-5 text-base leading-8 text-[var(--eecc-color-muted)]">Les coordonnées ci-dessous sont fictives et servent uniquement à la maquette. Elles seront remplacées par les informations officielles avant publication.</p></div>

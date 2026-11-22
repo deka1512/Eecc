@@ -10,7 +10,7 @@ const isActive = (to: string) => to === '/' ? route.path === '/' : route.path ==
   <header class="sticky top-0 z-50 border-b border-[var(--eecc-color-border)] bg-white/95 backdrop-blur-xl">
     <UContainer class="flex min-h-[4.75rem] items-center justify-between gap-5">
       <NuxtLink to="/" class="group inline-flex min-w-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4" aria-label="EECC Centrale, accueil">
-        <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[var(--eecc-color-brand)] text-sm font-extrabold tracking-tight text-white shadow-lg shadow-emerald-900/15">EECC</span>
+        <img src="/logo.jpg" alt="Logo EECC Centrale" class="size-11 shrink-0 rounded-xl object-contain shadow-lg shadow-emerald-900/15" />
         <span class="min-w-0">
           <span class="block truncate text-sm font-extrabold tracking-tight text-[var(--eecc-color-ink)] sm:text-base">EECC Centrale</span>
           <span class="hidden text-[10px] font-bold uppercase tracking-[.15em] text-[var(--eecc-color-muted)] sm:block">Église Clinique Charismatique</span>

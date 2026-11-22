@@ -10,6 +10,6 @@ export const pastor: PastorProfile = {
   name: '',
   title: 'Pasteur',
   biography: '',
-  portrait: '',
+  portrait: '/past isidore.jpg',
   message: ''
 }

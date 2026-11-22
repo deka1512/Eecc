@@ -10,10 +10,10 @@ const dateOffset = (days: number, hour = 10) => {
 }
 
 const media = {
-  prayer: 'https://images.pexels.com/photos/7533316/pexels-photo-7533316.jpeg?auto=compress&cs=tinysrgb&w=1200',
-  bible: 'https://images.pexels.com/photos/6276712/pexels-photo-6276712.jpeg?auto=compress&cs=tinysrgb&w=1400',
-  community: 'https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62',
-  gathering: 'https://vinepulse.com/wp-content/uploads/2023/08/367414568_692526529581710_6058880740802032878_n.jpeg'
+  prayer: '/temps%20priere.jpg',
+  bible: '/publication.jpg',
+  community: '/rencontre-commmunaute.jpg',
+  gathering: '/chriurch.jpg'
 }
 
 export const demoPublicationCategories: WordPressCategory[] = [

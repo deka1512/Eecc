@@ -15,7 +15,7 @@ const featuredEvents = demoEvents.slice(0, 3).map(event => {
     slug: event.slug,
     title: event.title.rendered.replace(/<[^>]*>/g, ''),
     date: new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' }).format(eventDate),
-    image: event.event_poster || event._embedded?.['wp:featuredmedia']?.[0]?.source_url || 'https://www.karenfamilychapel.org/assets/hero-jEk7uFqm.jpg',
+    image: event.event_poster || event._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/chriurch.jpg',
     alt: event._embedded?.['wp:featuredmedia']?.[0]?.alt_text || 'Communauté africaine réunie'
   }
 })
@@ -27,7 +27,7 @@ useSeoMeta({
 <template>
   <div class="overflow-hidden">
     <section class="relative isolate flex min-h-[680px] items-end overflow-hidden bg-[var(--eecc-color-ink)] sm:min-h-[760px] lg:min-h-[820px]">
-      <img :src="church.heroImage" alt="Une assemblée réunie pour un temps de célébration" class="absolute inset-0 -z-20 size-full object-cover object-center" fetchpriority="high">
+      <div role="img" aria-label="Une assemblée réunie pour un temps de célébration" :style="{ backgroundImage: `url('${church.heroImage}')` }" class="absolute inset-0 -z-20 size-full bg-cover bg-center" />
       <div class="absolute inset-0 -z-10 bg-gradient-to-r from-[#102D27]/95 via-[#102D27]/70 to-[#102D27]/15" />
       <div class="absolute inset-0 -z-10 bg-gradient-to-t from-[#102D27]/70 via-transparent to-black/10" />
       <div class="eecc-container w-full pb-20 pt-36 sm:pb-24 lg:pb-28">
@@ -64,7 +64,7 @@ useSeoMeta({
       <div class="eecc-container grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
         <div class="relative lg:col-span-6">
           <div class="absolute -left-8 -top-8 size-36 rounded-full bg-[var(--eecc-color-accent-soft)] blur-2xl" />
-          <img src="https://images.pexels.com/photos/6276712/pexels-photo-6276712.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Portrait d’illustration d’un pasteur noir africain" class="relative z-10 aspect-[5/4] w-full rounded-[2rem] object-cover object-center shadow-[var(--eecc-shadow-floating)]" loading="lazy">
+          <img src="/past%20isidore.jpg" alt="Portrait du Pasteur Isidore NSUMBU" class="relative z-10 aspect-[5/4] w-full rounded-[2rem] object-cover object-center shadow-[var(--eecc-shadow-floating)]" loading="lazy">
           <div class="absolute -bottom-7 -right-4 z-20 max-w-[220px] rounded-2xl bg-[var(--eecc-color-brand)] p-5 text-white shadow-xl sm:-right-8"><UIcon name="i-lucide-sparkles" class="size-6 text-[var(--eecc-color-accent)]" /><p class="mt-2 text-sm font-semibold leading-6">Pasteur Isidore NSUMBU</p><p class="mt-1 text-[10px] leading-4 text-white/70">Portrait d’illustration</p></div>
         </div>
         <div class="lg:col-span-5 lg:col-start-8">
@@ -80,7 +80,7 @@ useSeoMeta({
     <section id="ministere-pastoral" class="eecc-section scroll-mt-24 bg-white">
       <div class="eecc-container grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
         <div class="relative lg:col-span-5">
-          <img src="https://static.evangelisch.de/get/?daid=00010001pZQAWfpXtXETyJEnqgmu8l4ZVfMO9UdhRytPN0Mni4fc000000263400&dfid=i-62" alt="Choristes africaines réunies dans un lieu de culte" class="aspect-[4/5] w-full rounded-[1.75rem] object-cover shadow-[var(--eecc-shadow-floating)]" loading="lazy">
+          <img src="/departement.jpg" alt="Choristes lors d’un temps de louange" class="aspect-[4/5] w-full rounded-[1.75rem] object-cover shadow-[var(--eecc-shadow-floating)]" loading="lazy">
           <span class="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-[var(--eecc-color-muted)]">Visuel d’illustration</span>
         </div>
         <div class="lg:col-span-6 lg:col-start-7">
@@ -130,7 +130,7 @@ useSeoMeta({
     <PublicationGridSection v-if="latestPublications.length" :publications="latestPublications" eyebrow="Actualités et enseignements" title="Les dernières nouvelles de la communauté" description="Retrouvez les annonces, les temps forts et les ressources partagées par l’EECC Centrale." link-to="/publications" />
 
     <section class="relative isolate overflow-hidden py-24 sm:py-32">
-      <img src="https://www.karenfamilychapel.org/assets/hero-jEk7uFqm.jpg" alt="Assemblée africaine réunie pour un temps de louange" class="absolute inset-0 -z-20 size-full object-cover" loading="lazy"><div class="absolute inset-0 -z-10 bg-[#102D27]/85" />
+      <img src="/chriurch.jpg" alt="Assemblée réunie pour un temps de louange" class="absolute inset-0 -z-20 size-full object-cover" loading="lazy"><div class="absolute inset-0 -z-10 bg-[#102D27]/85" />
       <div class="eecc-container relative text-center text-white"><p class="eecc-eyebrow justify-center text-white/65">Un premier pas</p><h2 class="eecc-display mx-auto mt-5 max-w-4xl text-4xl leading-tight sm:text-5xl lg:text-6xl">Nous serions heureux de vous accueillir.</h2><p class="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/75">Que vous découvriez l’église ou que vous souhaitiez renouer avec la communauté, prenez le temps de parcourir nos informations et nos prochains rendez-vous.</p>
         <div class="mt-9 flex flex-wrap justify-center gap-3"><BaseButton to="/rendez-vous" size="lg">Prendre rendez-vous</BaseButton><BaseButton to="/contact" size="lg" color="neutral" variant="outline" class="border-white/40 text-white hover:bg-white/10">Nous contacter</BaseButton></div>
       </div>

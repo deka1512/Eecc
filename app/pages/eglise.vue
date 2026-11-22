@@ -2,12 +2,12 @@
 import { church } from '~/data/church'
 
 const pastoralCollege = [
-  { name: 'Pasteur Isidore NSUMBU', role: 'Pasteur principal', image: 'https://images.pexels.com/photos/6276712/pexels-photo-6276712.jpeg?auto=compress&cs=tinysrgb&w=1400' },
-  { name: 'Pasteur Daniel KABONGO', role: 'Pasteur associé', image: 'https://images.pexels.com/photos/17612325/pexels-photo-17612325/free-photo-of-portrait-of-man.jpeg?auto=compress&cs=tinysrgb&w=1200' },
-  { name: 'Pasteure Grâce MBUYI', role: 'Accompagnement pastoral', image: 'https://images.pexels.com/photos/20610322/pexels-photo-20610322/free-photo-of-african-woman-posing-in-a-studio.jpeg?auto=compress&cs=tinysrgb&w=1200' },
-  { name: 'Pasteur Samuel ILUNGA', role: 'Enseignement biblique', image: 'https://images.pexels.com/photos/7533316/pexels-photo-7533316.jpeg?auto=compress&cs=tinysrgb&w=1200' },
-  { name: 'Pasteure Esther KALALA', role: 'Prière et intercession', image: 'https://images.pexels.com/photos/33878708/pexels-photo-33878708/free-photo-of-confident-african-woman-portrait-on-dark-background.jpeg?auto=compress&cs=tinysrgb&w=1200' },
-  { name: 'Pasteur Jean-Pierre TSHIBANGU', role: 'Évangélisation et mission', image: 'https://images.pexels.com/photos/1678821/pexels-photo-1678821.jpeg?auto=compress&cs=tinysrgb&w=1200' }
+  { name: 'Pasteur Isidore NSUMBU', role: 'Pasteur principal', image: '/past%20isidore.jpg' },
+  { name: 'Pasteur Daniel KABONGO', role: 'Pasteur associé', image: '/contact.jpg' },
+  { name: 'Pasteure Grâce MBUYI', role: 'Accompagnement pastoral', image: '/departement.jpg' },
+  { name: 'Pasteur Samuel ILUNGA', role: 'Enseignement biblique', image: '/publication.jpg' },
+  { name: 'Pasteure Esther KALALA', role: 'Prière et intercession', image: '/temps%20priere.jpg' },
+  { name: 'Pasteur Jean-Pierre TSHIBANGU', role: 'Évangélisation et mission', image: '/events.jpg' }
 ]
 
 useSeoMeta({
@@ -83,7 +83,7 @@ useSeoMeta({
         <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <article v-for="(member, index) in pastoralCollege" :key="member.name" class="overflow-hidden rounded-[1.5rem] border border-[var(--eecc-color-border)] bg-white shadow-[var(--eecc-shadow-card)]">
             <div class="relative overflow-hidden bg-[var(--eecc-color-surface-muted)]">
-              <img :src="member.image" :alt="'Portrait d’illustration de ' + member.name" class="aspect-[4/4] w-full object-cover object-center" loading="lazy">
+              <img :src="member.image" :alt="'Visuel d’illustration de ' + member.name" class="aspect-[4/4] w-full object-cover object-center" loading="lazy">
               <span v-if="index === 0" class="absolute left-4 top-4 rounded-full bg-[var(--eecc-color-brand)] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white">Pasteur principal</span>
             </div>
             <div class="p-6">

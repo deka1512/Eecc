@@ -10,7 +10,7 @@ const year = new Date().getFullYear()
       <div class="grid gap-10 md:grid-cols-12">
         <div class="md:col-span-5">
           <NuxtLink to="/" class="inline-flex items-center gap-3">
-            <span class="flex size-11 items-center justify-center rounded-xl bg-white/10 text-sm font-bold tracking-tight">EECC</span>
+            <img src="/logo.jpg" alt="Logo EECC Centrale" class="size-11 shrink-0 rounded-xl object-contain" />
             <span class="text-base font-bold">EECC Centrale</span>
           </NuxtLink>
           <p class="mt-5 max-w-md text-sm leading-7 text-white/65">
