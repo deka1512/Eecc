@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 
 const wordpressUrl = String(process.env.NUXT_PUBLIC_WORDPRESS_URL || '').trim().replace(/\/$/, '')
 const routes = []
@@ -56,7 +57,7 @@ if (wordpressUrl) {
     const normalizedName = String(category.name || '')
       .toLocaleLowerCase('fr')
       .normalize('NFD')
-      .replace(/[\\u0300-\\u036f]/g, '')
+      .replace(/[\u0300-\u036f]/g, '')
     return ['evenements', 'evenement'].includes(category.slug) || normalizedName === 'evenements'
   })
 
@@ -75,8 +76,8 @@ if (wordpressUrl) {
   console.warn('SSG : NUXT_PUBLIC_WORDPRESS_URL absent. Génération avec les contenus de démonstration uniquement.')
 }
 
-const nuxtCli = new URL('../node_modules/nuxt/bin/nuxt.mjs', import.meta.url)
-const result = spawnSync(process.execPath, [nuxtCli.pathname, 'generate'], {
+const nuxtCli = fileURLToPath(new URL('../node_modules/nuxt/bin/nuxt.mjs', import.meta.url))
+const result = spawnSync(process.execPath, [nuxtCli, 'generate'], {
   stdio: 'inherit',
   env: {
     ...process.env,
