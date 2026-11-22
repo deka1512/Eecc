@@ -1,111 +1,87 @@
 # EECC Centrale — front-end public
 
-Front-end du site public de l'Église Clinique Charismatique (EECC Centrale), construit avec Nuxt 4 et prévu pour fonctionner avec WordPress en mode Headless.
+Front-end du site public de l'Église Clinique Charismatique (EECC Centrale), construit avec Nuxt 4 et WordPress Headless.
 
-## Récupérer le projet
+## Branche de travail
 
-- Branche de travail : [initialisation](https://github.com/deka1512/Eecc/tree/initialisation)
-- Pour récupérer le code : ouvrir cette branche sur GitHub, cliquer sur **Code → Download ZIP**, puis décompresser l'archive.
-- Ouvrir le dossier décompressé dans Visual Studio Code ou un autre éditeur.
-
-La branche `main` n'est pas modifiée.
+Branche SSG en préparation : [deployment/ssg-static](https://github.com/deka1512/Eecc/tree/deployment/ssg-static), créée à partir de `design/site-vitrine-premium`.
 
 ## Prérequis
 
-- Node.js 22 LTS recommandé (Node.js 20.19 ou plus récent).
-- npm 10 ou plus récent.
-- Visual Studio Code recommandé, mais facultatif.
+- Node.js 22 LTS
+- npm 10+
+- Visual Studio Code recommandé
 
-## Installation sur le PC
-
-Dans un terminal ouvert à la racine du dossier :
+## Installation locale
 
 ```bash
 npm install
+cp .env.example .env
 ```
 
-Copier ensuite `.env.example` vers un nouveau fichier nommé `.env`.
+Pour utiliser les contenus WordPress, renseigner `NUXT_PUBLIC_WORDPRESS_URL` dans `.env` avec l'URL racine du CMS, sans `/wp-json`. Laisser vide uniquement pour le travail avec les contenus de démonstration.
 
-- Pour travailler sur les pages et les composants sans WordPress, laisser `NUXT_PUBLIC_WORDPRESS_URL` vide.
-- Pour connecter WordPress, renseigner l'URL racine du site, sans ajouter `/wp-json`.
-
-Démarrer le serveur local :
+Démarrer le développement :
 
 ```bash
 npm run dev
 ```
 
-Ouvrir ensuite [http://localhost:3000](http://localhost:3000).
-
-## Vérifications
+## Vérifications et génération statique
 
 ```bash
 npm run typecheck
-npm run build
+npm run generate
 ```
 
-Le contrôle automatique est aussi disponible dans GitHub : ouvrir l'onglet **Actions**, choisir **Frontend checks**, puis **Run workflow** pour le lancer manuellement.
-
-Pour générer une version statique :
+Les fichiers publiables sont générés dans `.output/public`. Pour les servir localement :
 
 ```bash
-npm run generate
-npm run preview
+npx serve .output/public
 ```
+
+La procédure complète est documentée dans [docs/deployment-static.md](docs/deployment-static.md).
 
 ## Stack
 
 - Nuxt 4, Vue 3 et TypeScript
 - Nuxt UI, Tailwind CSS et Lucide
 - Nuxt SEO
-- WordPress REST API pour les contenus éditoriaux
+- WordPress REST API en Headless
+- Génération statique SSG avec exploration des liens internes
 
-## Organisation du code
+## Organisation
 
 - `app/pages` : pages publiques et routes de détail.
 - `app/components/ui` : composants fondamentaux.
-- `app/components/editorial` : cartes et composants liés aux contenus.
+- `app/components/editorial` : cartes et composants éditoriaux.
 - `app/components/sections` : sections réutilisables.
 - `app/data` : identité institutionnelle, pasteur, départements et navigation.
 - `app/services/wordpress` : accès à l'API WordPress.
-- `app/composables` : chargement et préparation des données.
+- `app/composables` : chargement des données.
 - `app/types` : contrats TypeScript.
-- `docs/design-system.md` : documentation du système design.
+- `docs` : documentation technique et design system.
 
-## Connexion WordPress
+## WordPress Headless
 
-Le site consomme les articles WordPress publiés via l'API REST.
+Le site consomme les articles publiés via l'API REST. Les catégories éditoriales attendues comprennent Actualités, Événements, Annonces, Enseignements et Communiqués.
 
-Catégories éditoriales attendues :
-- Actualités
-- Événements
-- Annonces
-- Enseignements
-- Communiqués
+Les événements restent des articles WordPress de la catégorie Événements. Le plugin maison `eecc-core` doit exposer les champs `event_start`, `event_end`, `event_venue`, `event_address`, `registration_url`, `event_status` et `event_poster`.
 
-Les événements restent des articles WordPress de la catégorie **Événements**. Le plugin maison `eecc-core` doit exposer dans l'API REST les champs suivants :
+Les médias sont associés aux pages, publications et événements ; il n'existe pas de médiathèque autonome.
 
-- `event_start`
-- `event_end`
-- `event_venue`
-- `event_address`
-- `registration_url`
-- `event_status` (`scheduled` ou `cancelled`)
-- `event_poster`
+## Important pour le SSG
 
-Les médias sont associés aux pages, publications et événements. Il n'existe pas de médiathèque autonome dans l'interface.
+Le contenu WordPress est figé dans les fichiers générés au moment du build. Toute publication ou modification doit déclencher un nouveau build et un nouveau déploiement. Prévoir un webhook WordPress vers le build hook de l'hébergeur.
 
-## Éléments à renseigner avant mise en ligne
+Les formulaires nécessitant un traitement serveur devront utiliser un service externe ou une fonction serverless. Voir la documentation de déploiement.
 
-Les champs institutionnels sont volontairement laissés vides tant que les informations officielles ne sont pas confirmées :
+## Informations à valider avant mise en ligne
 
-- `app/data/church.ts` : description, adresse, téléphone, e-mail, logo et images.
-- `app/data/pastor.ts` : nom, biographie, portrait et message pastoral.
-- `app/data/departments.ts` : liste et présentation des départements.
-- `app/assets/css/main.css` : valeurs exactes de la palette 03 et polices du set typographique 04.
+- `app/data/church.ts` : informations officielles, adresse, contacts, logo et images.
+- `app/data/pastor.ts` : identité et contenu pastoral.
+- `app/data/departments.ts` : départements et présentations.
+- `app/assets/css/main.css` : validation finale de la palette 03 et des polices du set 04.
+- WordPress : URL, catégories, champs du plugin `eecc-core` et contenus définitifs.
 
-Ne pas publier le site avant d'avoir renseigné ces contenus, raccordé WordPress et vérifié le rendu final.
-
-## État de validation
-
-Une intégration continue GitHub Actions lance le contrôle TypeScript et le build sur la branche `initialisation`. Les résultats de ces contrôles doivent être verts avant de considérer le front-end comme validé pour la mise en production.
+Ne pas publier tant que les données officielles, les routes générées et les formulaires n'ont pas été vérifiés.

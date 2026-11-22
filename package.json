@@ -7,9 +7,9 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
-    "build": "nuxt build",
+    "build": "node scripts/generate-static.mjs",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "node scripts/generate-static.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck"

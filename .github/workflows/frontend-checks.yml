@@ -6,10 +6,13 @@ on:
       - initialisation
       - main
       - design/site-vitrine-premium
+      - deployment/ssg-static
   pull_request:
     branches:
       - initialisation
       - main
+      - design/site-vitrine-premium
+      - deployment/ssg-static
   workflow_dispatch:
 
 permissions:
@@ -17,9 +20,9 @@ permissions:
 
 jobs:
   verify:
-    name: Typecheck and production build
+    name: Typecheck and static generation
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -35,5 +38,5 @@ jobs:
       - name: Check TypeScript
         run: npm run typecheck
 
-      - name: Build Nuxt
-        run: npm run build
+      - name: Generate static site
+        run: npm run generate
