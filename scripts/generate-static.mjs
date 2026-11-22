@@ -7,7 +7,7 @@ const routes = []
 async function fetchJson(url) {
   const response = await fetch(url, {
     headers: { accept: 'application/json' },
-    signal: AbortSignal.timeout(20000)
+    signal: AbortSignal.timeout(12000)
   })
 
   if (!response.ok) {
@@ -45,35 +45,41 @@ async function fetchAllPosts(apiUrl) {
   return allPosts
 }
 
+// WordPress enrichit le pré-rendu, mais ne doit jamais empêcher la livraison du site.
 if (wordpressUrl) {
-  const apiUrl = `${wordpressUrl}/wp-json/wp/v2`
-  const categoriesUrl = new URL(`${apiUrl}/categories`)
-  categoriesUrl.searchParams.set('per_page', '100')
-  categoriesUrl.searchParams.set('hide_empty', 'false')
+  try {
+    const apiUrl = `${wordpressUrl}/wp-json/wp/v2`
+    const categoriesUrl = new URL(`${apiUrl}/categories`)
+    categoriesUrl.searchParams.set('per_page', '100')
+    categoriesUrl.searchParams.set('hide_empty', 'false')
 
-  const categoriesResult = await fetchJson(categoriesUrl)
-  const categories = Array.isArray(categoriesResult.data) ? categoriesResult.data : []
-  const eventCategory = categories.find(category => {
-    const normalizedName = String(category.name || '')
-      .toLocaleLowerCase('fr')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-    return ['evenements', 'evenement'].includes(category.slug) || normalizedName === 'evenements'
-  })
+    const categoriesResult = await fetchJson(categoriesUrl)
+    const categories = Array.isArray(categoriesResult.data) ? categoriesResult.data : []
+    const eventCategory = categories.find(category => {
+      const normalizedName = String(category.name || '')
+        .toLocaleLowerCase('fr')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+      return ['evenements', 'evenement'].includes(category.slug) || normalizedName === 'evenements'
+    })
 
-  const posts = await fetchAllPosts(apiUrl)
-  for (const post of posts) {
-    if (!post.slug) continue
-    routes.push(`/publications/${encodeURIComponent(post.slug)}`)
+    const posts = await fetchAllPosts(apiUrl)
+    for (const post of posts) {
+      if (!post.slug) continue
+      routes.push(`/publications/${encodeURIComponent(post.slug)}`)
 
-    if (eventCategory && Array.isArray(post.categories) && post.categories.includes(eventCategory.id)) {
-      routes.push(`/evenements/${encodeURIComponent(post.slug)}`)
+      if (eventCategory && Array.isArray(post.categories) && post.categories.includes(eventCategory.id)) {
+        routes.push(`/evenements/${encodeURIComponent(post.slug)}`)
+      }
     }
-  }
 
-  console.info(`SSG : ${posts.length} article(s) WordPress analysé(s), ${routes.length} route(s) éditoriale(s) ajoutée(s).`)
+    console.info(`SSG : ${posts.length} article(s) WordPress analysé(s), ${routes.length} route(s) éditoriale(s) ajoutée(s).`)
+  } catch (error) {
+    console.warn('SSG : WordPress indisponible ou API invalide. Poursuite du build sans routes éditoriales distantes.')
+    console.warn(error instanceof Error ? error.message : error)
+  }
 } else {
-  console.warn('SSG : NUXT_PUBLIC_WORDPRESS_URL absent. Génération avec les contenus de démonstration uniquement.')
+  console.info('SSG : aucune URL WordPress configurée. Génération sans contenus éditoriaux distants.')
 }
 
 const nuxtCli = fileURLToPath(new URL('../node_modules/nuxt/bin/nuxt.mjs', import.meta.url))
