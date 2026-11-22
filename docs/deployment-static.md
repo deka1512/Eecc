@@ -16,7 +16,7 @@ Le rendu SSR est conservé pendant la génération. Les données WordPress sont 
 ## Générer le site
 
 ```bash
-npm ci
+npm install
 cp .env.example .env
 ```
 
@@ -53,7 +53,7 @@ Un site SSG ne consulte pas WordPress à chaque visite. Une publication, modific
 
 1. Configurer un webhook WordPress (publication, mise à jour, suppression).
 2. Le webhook déclenche le build du fournisseur d'hébergement.
-3. Le fournisseur exécute `npm ci`, `npm run typecheck`, puis `npm run generate`.
+3. Le fournisseur exécute `npm install`, `npm run typecheck`, puis `npm run generate`.
 4. Le dossier `.output/public` est publié.
 
 Ne jamais exposer un secret de webhook dans le frontend. Utiliser le mécanisme de build hook sécurisé du fournisseur.
