@@ -1,19 +1,20 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-11-09',
+  ssr: true,
   devtools: { enabled: true },
   modules: ['@nuxt/ui', '@nuxtjs/seo'],
   components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/css/main.css'],
 
-  // La valeur NUXT_PUBLIC_WORDPRESS_URL est injectée au moment du build.
-  // En SSG, les pages générées ne pourront pas lire une nouvelle valeur après déploiement.
+  // Injectée au moment du build : les pages statiques embarquent les données WordPress.
   runtimeConfig: {
     public: {
       wordpressUrl: ''
     }
   },
 
-  // Génération HTML statique avec rendu serveur au moment du build.
+  // Pré-rendu HTML. Le crawler suit les liens internes depuis l'accueil
+  // pour découvrir les pages institutionnelles et les fiches éditoriales.
   nitro: {
     prerender: {
       crawlLinks: true,
