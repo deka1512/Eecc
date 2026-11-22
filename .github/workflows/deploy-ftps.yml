@@ -1,0 +1,102 @@
+name: EECC Centrale — Build & déploiement FTPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eecc-production-deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Vérification et génération statique
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v6
+
+      - name: Configurer Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Vérifier les paramètres WordPress
+        env:
+          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+        run: |
+          if [ -z "$WORDPRESS_URL" ]; then
+            echo "::error::Le secret WORDPRESS_URL doit contenir l'URL racine du WordPress."
+            exit 1
+          fi
+
+      - name: Installer les dépendances
+        run: npm install --no-audit --no-fund
+
+      - name: Vérifier TypeScript
+        run: npm run typecheck
+
+      - name: Générer le site statique
+        env:
+          NUXT_PUBLIC_WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+        run: npm run generate
+
+      - name: Vérifier le dossier généré
+        run: |
+          test -s .output/public/index.html
+          echo "Génération statique validée."
+
+      - name: Archiver le site généré
+        uses: actions/upload-artifact@v6
+        with:
+          name: eecc-static-site
+          path: .output/public/
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Synchronisation FTPS vers Samkir
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 30
+    environment:
+      name: production
+    steps:
+      - name: Télécharger le site généré
+        uses: actions/download-artifact@v6
+        with:
+          name: eecc-static-site
+          path: .output/public/
+
+      - name: Vérifier les paramètres FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          for key in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_SERVER_DIR; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Le secret $key est manquant dans GitHub Actions."
+              exit 1
+            fi
+          done
+
+      - name: Déployer le site par FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: ${{ secrets.FTP_PORT || 21 }}
+          local-dir: .output/public/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          dangerous-clean-slate: false
+          log-level: standard
