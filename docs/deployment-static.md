@@ -4,14 +4,12 @@
 
 Le site est pré-rendu en SSG avec Nuxt. Le HTML, les payloads et les assets sont produits pendant le build dans `.output/public`. L'hébergement final sert uniquement ces fichiers : aucun serveur Node.js n'est nécessaire en production.
 
-Le rendu SSR est conservé pendant la génération. Les données WordPress sont récupérées au build et intégrées aux pages statiques.
+WordPress est une source éditoriale facultative : lorsqu'il est accessible, ses articles et événements sont ajoutés aux routes pré-générées. S'il est absent ou indisponible, le build continue avec les pages et contenus locaux disponibles dans le projet.
 
 ## Prérequis
 
 - Node.js 22 LTS et npm 10+
-- Une URL publique WordPress accessible depuis la machine de build
-- API REST WordPress accessible sur `/wp-json/wp/v2`
-- Les contenus à publier déjà en statut « publié »
+- WordPress facultatif, avec API REST accessible sur `/wp-json/wp/v2` pour importer les contenus éditoriaux
 
 ## Générer le site
 
@@ -20,7 +18,7 @@ npm install
 cp .env.example .env
 ```
 
-Renseigner dans `.env` l'URL racine du WordPress, sans `/wp-json` :
+L'URL WordPress peut être renseignée dans `.env`, sans `/wp-json` :
 
 ```dotenv
 NUXT_PUBLIC_WORDPRESS_URL=https://cms.exemple.org
@@ -33,36 +31,21 @@ npm run typecheck
 npm run generate
 ```
 
-Le script `scripts/generate-static.mjs` interroge WordPress, récupère les slugs de tous les articles publiés (pagination REST) et identifie les articles de la catégorie Événements. Il transmet ensuite les routes à Nuxt avant le pré-rendu. Si l'URL WordPress est renseignée mais que l'API est indisponible, le build échoue volontairement au lieu de produire silencieusement un site de démonstration.
-
-Sans URL WordPress, la génération utilise les contenus fictifs de démonstration ; ce mode est réservé au développement et à la CI.
-
-Le site statique est disponible dans `.output/public`. Tester le rendu généré localement :
-
-```bash
-npx serve .output/public
-```
+Le script `scripts/generate-static.mjs` tente de récupérer les slugs des articles publiés et d'identifier les événements. En cas d'absence d'URL, d'indisponibilité réseau ou d'erreur de l'API WordPress, il journalise un avertissement et poursuit la génération sans routes éditoriales distantes. Une erreur Nuxt, TypeScript ou de génération du site reste bloquante.
 
 ## Routes générées
 
 - Les pages institutionnelles sont découvertes par le crawler Nuxt à partir des liens internes de l'accueil.
-- Les fiches de publication sont pré-générées à partir de tous les articles publiés WordPress.
-- Les fiches d'événement sont pré-générées pour les articles de la catégorie Événements.
+- Les fiches de publication sont pré-générées à partir des articles publiés WordPress lorsque l'API est disponible.
+- Les fiches d'événement sont pré-générées pour les articles de la catégorie Événements lorsque l'API est disponible.
 
-Vérifier après chaque build la présence des dossiers `publications` et `evenements` dans `.output/public`, ainsi que des fiches correspondant aux contenus WordPress attendus.
+Vérifier après chaque build les routes produites dans `.output/public`. Les routes éditoriales distantes ne sont présentes que si WordPress a répondu correctement pendant le build.
 
 ## Publication et actualisation WordPress
 
-Un site SSG ne consulte pas WordPress à chaque visite. Une publication, modification ou suppression dans WordPress ne sera visible sur le site public qu'après une nouvelle génération et un nouveau déploiement.
+Un site SSG ne consulte pas WordPress à chaque visite. Une publication, modification ou suppression dans WordPress sera visible après une nouvelle génération et un nouveau déploiement, si WordPress est disponible à ce moment-là.
 
-À mettre en place avant la production :
-
-1. Configurer un webhook WordPress (publication, mise à jour, suppression).
-2. Le webhook déclenche le build du fournisseur d'hébergement.
-3. Le fournisseur injecte `NUXT_PUBLIC_WORDPRESS_URL`, exécute `npm install`, `npm run typecheck`, puis `npm run generate`.
-4. Le dossier `.output/public` est publié.
-
-Ne jamais exposer un secret de webhook dans le frontend. Utiliser le mécanisme de build hook sécurisé du fournisseur.
+Un webhook WordPress pourra déclencher une génération anticipée, mais il ne sera pas nécessaire au déploiement du site. Ne jamais exposer un secret de webhook dans le frontend.
 
 ## Hébergement
 
@@ -73,6 +56,6 @@ Ne pas configurer de fallback global vers `index.html` comme pour une SPA : cela
 ## Limites à anticiper
 
 - `NUXT_PUBLIC_WORDPRESS_URL` est une configuration de build : la changer nécessite un nouveau build.
-- Les formulaires qui doivent enregistrer ou envoyer des données ne peuvent pas être traités par un hébergement de fichiers statiques seul. Ils devront appeler un service externe sécurisé (API, service de formulaires ou fonction serverless).
-- Une publication ou modification WordPress nécessite un nouveau build et un nouveau déploiement.
-- Ne pas déployer la génération de démonstration sans avoir remplacé les contenus fictifs et validé les données officielles.
+- Une publication ou modification WordPress nécessite une nouvelle génération pour apparaître dans le site statique.
+- Les formulaires qui doivent enregistrer ou envoyer des données nécessitent un service externe sécurisé (API, service de formulaires ou fonction serverless).
+- La disponibilité de WordPress conditionne l'actualisation des contenus distants, pas la génération et le déploiement des pages du site.
