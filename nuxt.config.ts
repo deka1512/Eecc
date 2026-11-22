@@ -4,7 +4,24 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxtjs/seo'],
   components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/css/main.css'],
-  runtimeConfig: { public: { wordpressUrl: '' } },
+
+  // La valeur NUXT_PUBLIC_WORDPRESS_URL est injectée au moment du build.
+  // En SSG, les pages générées ne pourront pas lire une nouvelle valeur après déploiement.
+  runtimeConfig: {
+    public: {
+      wordpressUrl: ''
+    }
+  },
+
+  // Génération HTML statique avec rendu serveur au moment du build.
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+      failOnError: true
+    }
+  },
+
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
