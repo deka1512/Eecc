@@ -1,0 +1,42 @@
+name: Frontend checks
+
+on:
+  push:
+    branches:
+      - initialisation
+      - main
+      - design/site-vitrine-premium
+      - deployment/ssg-static
+  pull_request:
+    branches:
+      - initialisation
+      - main
+      - design/site-vitrine-premium
+      - deployment/ssg-static
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Typecheck and static generation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check TypeScript
+        run: npm run typecheck
+
+      - name: Generate static site
+        run: npm run generate
