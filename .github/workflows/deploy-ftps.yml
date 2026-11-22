@@ -27,15 +27,6 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Vérifier les paramètres WordPress
-        env:
-          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
-        run: |
-          if [ -z "$WORDPRESS_URL" ]; then
-            echo "::error::Le secret WORDPRESS_URL doit contenir l'URL racine du WordPress."
-            exit 1
-          fi
-
       - name: Installer les dépendances
         run: npm install --no-audit --no-fund
 
@@ -44,6 +35,7 @@ jobs:
 
       - name: Générer le site statique
         env:
+          # Facultatif : WordPress enrichit le contenu, mais n'est pas requis pour le build.
           NUXT_PUBLIC_WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
         run: npm run generate
 
