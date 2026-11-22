@@ -1,3 +1,12 @@
+const discoveredRoutes = (() => {
+  try {
+    const value: unknown = JSON.parse(process.env.NUXT_PRERENDER_ROUTES || '[]')
+    return Array.isArray(value) ? value.filter((route): route is string => typeof route === 'string') : []
+  } catch {
+    return []
+  }
+})()
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-11-09',
   ssr: true,
@@ -13,12 +22,12 @@ export default defineNuxtConfig({
     }
   },
 
-  // Pré-rendu HTML. Le crawler suit les liens internes depuis l'accueil
-  // pour découvrir les pages institutionnelles et les fiches éditoriales.
+  // Pré-rendu HTML. Les routes éditoriales sont découvertes par le script
+  // scripts/generate-static.mjs, puis les liens internes complètent le crawl.
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/'],
+      routes: ['/', ...discoveredRoutes],
       failOnError: true
     }
   },
