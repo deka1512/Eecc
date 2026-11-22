@@ -15,7 +15,7 @@ Branche SSG en préparation : [deployment/ssg-static](https://github.com/deka151
 ## Installation locale
 
 ```bash
-npm ci
+npm install
 cp .env.example .env
 ```
 
